@@ -30,7 +30,7 @@ public class StudentManager {
 
     public Student getById(int id) {
         Student student = new Student();
-        String sql = "SElECT FROM student WHERE id = ?";
+        String sql = "SELECT FROM student WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();

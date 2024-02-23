@@ -55,9 +55,9 @@ public class DormitoryManager {
 
     public Dormitory getById(int id) {
         Dormitory dormitory = new Dormitory();
-        String sql = "SElECT FROM dormitory WHERE id = ?";
+        String sql = "SELECT * FROM dormitory WHERE room_id = ? ";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, id);
+            statement.setInt(1,id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 dormitory = getFromResultSet(resultSet);
