@@ -13,13 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/regList")
-public class RegisterListServlet extends HttpServlet {
+@WebServlet("/studentList")
+public class StudentsListServlet extends HttpServlet {
    StudentManager studentManager = new StudentManager();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Student> all = studentManager.getAll();
+     String search = req.getParameter("search");
+        List<Student> all;
+        if (search == null){
+            all = studentManager.getAll();
+        }else{
+            all = studentManager.getByNameOrSurname(search);
+        }
         req.setAttribute("rooms",all);
         req.getRequestDispatcher("WEB-INF/studentsList.jsp").forward(req,resp);
+
     }
 }

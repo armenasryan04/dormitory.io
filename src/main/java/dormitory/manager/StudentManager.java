@@ -17,7 +17,22 @@ public class StudentManager {
         List<Student> students = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * from student");
+            ResultSet resultSet = statement.executeQuery("SELECT * from student order by name asc ");
+            while (resultSet.next()) {
+                students.add(getFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
+    public List<Student> getByNameOrSurname(String search){
+        List<Student> students = new ArrayList<>();
+        String sql = "SELECT * FROM student WHERE UPPER(name) LIKE CONCAT('%', UPPER(?), '%') OR UPPER(surname) LIKE CONCAT('%', UPPER(?), '%')\n";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, "%" + search + "%");
+            statement.setString(2, "%" + search + "%");
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 students.add(getFromResultSet(resultSet));
             }

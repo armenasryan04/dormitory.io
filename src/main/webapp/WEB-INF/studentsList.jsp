@@ -15,13 +15,27 @@
 <% List<Student> students = (List<Student>) request.getAttribute("rooms"); %>
 <body>
 
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
 
 <div class="container">
-    <h1>Welcome to our Dormitory
-    </h1>
+    <h1>Welcome to our Dormitory </h1>
+    <form id="searchForm" action="/studentList" method="get" >
+        <div class="search-box">
+            <input  type="text" name="search" class="input-search" placeholder="🔍 search..." id="searchInput" value="${not empty param.search ? param.search : ''}" >
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('searchForm').submit();
+            }
+        });
+    </script>
+
     <br/>
     <table class="table">
         <thead>
@@ -31,31 +45,29 @@
             <th>END DATE</th>
             <th style="width: 11px">REMAINING DAYS</th>
             <th>ROOM INFO</th>
-
-            <% if (students != null && !students.isEmpty()) { %>
-            <%for (Student student : students) {%>
-
         </tr>
         </thead>
         <tbody>
-        <tbody>
+        <% if (students != null && !students.isEmpty()) { %>
+        <% for (Student student : students) { %>
         <tr>
-            <td><%=student.getName()%>
+            <td><%= student.getName() %>
             </td>
-            <td><%=student.getSurname()%>
+            <td><%= student.getSurname() %>
             </td>
-            <td><%=student.getDate()%>
+            <td><%= student.getDate() %>
             </td>
-            <td style="padding: 5px"><%=student.getDaysUntil(student.getDate())%>
+            <td style="padding: 5px"><%= student.getDaysUntil(student.getDate()) %>
             </td>
-            <td style="padding-left: 2px "><a href="/roomsList" class="gradient-button">Room</a></td>
-            <%}%>
-            <%}%>
-
+            <td style="padding-left: 2px "><a href="/roomsList?id=<%=student.getDormitory().getId()%>" class="gradient-button">Room</a></td>
         </tr>
+        <% } %>
+        <% } %>
         </tbody>
     </table>
 </div>
+
+
 </body>
 <style type="text/css">
     .container {
@@ -101,6 +113,7 @@
     .table tbody tr:nth-child(even) {
         background: #4c698d !important;
     }
+
     .wave {
         background: rgb(255 255 255 / 25%);
         border-radius: 1000% 1000% 0 0;
@@ -153,7 +166,7 @@
     body {
         font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         overflow: auto;
-        background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
+        background: linear-gradient(315deg, rgba(101, 0, 94, 1) 3%, rgba(60, 132, 206, 1) 38%, rgba(48, 238, 226, 1) 68%, rgba(255, 25, 25, 1) 98%);
         animation: gradient 15s ease infinite;
         background-size: 400% 400%;
         background-attachment: fixed;
@@ -198,6 +211,77 @@
         color: #000;
         text-shadow: 0 0 10px #f519f5;
     }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #6259e7;
+        font-family: 'Lato', sans-serif;
+    }
+
+    .search-box {
+        position: relative;
+    }
+
+    .input-search {
+        width: 65px;
+        height: 60px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 40px;
+        outline: none;
+        font-size: 18px;
+        background: linear-gradient(135deg, #fdd100, #428af6);;
+        color: #fff;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .input-search::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 18px;
+        font-weight: 100;
+    }
+
+    .btn-search {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50px;
+        height: 50px;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        font-size: 20px;
+        font-weight: bold;
+        color: #ffffff;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .btn-search i {
+        margin-top: 5px;
+    }
+
+    .btn-search:focus + .input-search,
+    .input-search:focus {
+        width: 300px;
+        border-radius: 0;
+        background-color: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .input-search:hover {
+        width: 300px;
+    }
+
 </style>
 
 </html>

@@ -17,7 +17,7 @@
     <h1>Welcome to our Dormitory
     </h1>
     <br/>
-    <a href="/regList" class="gradient-button">STUDENTS</a></br>
+    <a href="/studentList" class="gradient-button">STUDENTS</a></br>
     <a href="login.jsp" class="gradient-button">Log in</a>
 </div>
 <style>
