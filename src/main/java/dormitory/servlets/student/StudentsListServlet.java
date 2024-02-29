@@ -1,4 +1,4 @@
-package dormitory.servlets;
+package dormitory.servlets.student;
 
 
 
@@ -25,7 +25,7 @@ public class StudentsListServlet extends HttpServlet {
         }else{
             all = studentManager.getByNameOrSurname(search);
         }
-        req.setAttribute("rooms",all);
+        req.setAttribute("students",all);
         req.getRequestDispatcher("WEB-INF/studentsList.jsp").forward(req,resp);
 
     }

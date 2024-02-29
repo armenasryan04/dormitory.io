@@ -21,28 +21,26 @@
     <div class="title">
         RECEPTION
     </div>
-    <form action="/login" method="post">
+    <form action="/login" method="post" >
         <div class="field">
-            <input type="text" required>
+            <input name="email" type="text" >
             <label>Email Address</label>
         </div>
         <div class="field">
-            <input type="password" required>
+            <input name="password" type="password" >
             <label>Password</label>
         </div>
         <div class="content">
             <div class="pass-link">
-                <a style="right:5px " href="/forgetPassword" s> Forgot password?</a>
+                <a style="right:5px " href="/forgetPassword" > Forgot password?</a>
             </div>
         </div>
         <div class="field">
-            <input type="submit" value="Login">
+            <input type="submit" value="Login" >
         </div>
         <div class="signup-link">
-            Register <a href="/singin.jsp">SingIn up </a>
+            Register <a href="/singInUp.jsp">SingIn up </a>
         </div>
-    </form>
-
     </form>
 </div>
 </body>
@@ -137,7 +135,7 @@
 
     .wrapper {
         width: 380px;
-        background:  linear-gradient(135deg, #a536ef, #00878c);
+        background:  linear-gradient(135deg, rgba(165, 54, 239, 0.44), #00878c);
         border-radius: 15px;
         box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
     }
@@ -266,10 +264,10 @@
         color: rgba(172, 208, 65, 0.76);
         text-decoration: none;
     }
-
     form .pass-link a:hover,
     form .signup-link a:hover {
         text-decoration: underline;
     }
+
 </style>
 </html>

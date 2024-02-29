@@ -1,16 +1,10 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="dormitory.models.Student" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: User
-  Date: 21.02.2024
-  Time: 19:06
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>List of Rooms</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <% List<Student> students = (List<Student>) request.getAttribute("students"); %>
 <body>
@@ -21,7 +15,7 @@
 
 <div class="container">
     <h1>Welcome to our Dormitory </h1>
-    <form id="searchForm" action="/studentList" method="get">
+    <form id="searchForm" action="/control" method="get">
         <div class="search-box">
             <div class="input-search-background">
                 <div class="btn-search">
@@ -31,8 +25,6 @@
             </div>
         </div>
     </form>
-
-
     <script>
         document.getElementById('searchInput').addEventListener('keypress', function (event) {
             if (event.key === 'Enter') {
@@ -40,8 +32,20 @@
                 document.getElementById('searchForm').submit();
             }
         });
-
-
+        $(document).ready(function () {
+            $('.menu').click(function () {
+                $('.overlay').toggleClass('anim');
+                $(this).toggleClass('open');
+                $('.blurry-background').toggleClass('blurry');
+            });
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
+                    $('.overlay').removeClass('anim');
+                    $('.menu').removeClass('open');
+                    $('.blurry-background').removeClass('blurry');
+                }
+            });
+        });
     </script>
 
     <br/>
@@ -50,8 +54,9 @@
         <tr>
             <th>NAME</th>
             <th>SURNAME</th>
+            <th>PHONE</th>
             <th>END DATE</th>
-            <th style="width: 11px">REMAINING DAYS</th>
+            <th style="padding-left: 10px">REMAINING DAYS</th>
             <th>ROOM INFO</th>
         </tr>
         </thead>
@@ -63,10 +68,13 @@
             </td>
             <td><%= student.getSurname() %>
             </td>
-            <%if (student.getDaysUntil(student.getDate()).equals(0 + "d " + 0 + "h")) {%>
-            <td style="color: brown"><%= student.getDate() %>
+            <td><%=student.getPhoneNum()%>
             </td>
-            <td style="padding: 5px; color: brown"><%= student.getDaysUntil(student.getDate()) %>
+
+            <%if (student.getDaysUntil(student.getDate()).equals(0 + "d " + 0 + "h")) {%>
+            <td style="color: #650404"><%= student.getDate() %>
+            </td>
+            <td style="padding: 5px; color: #5d0202"><%= student.getDaysUntil(student.getDate()) %>
                     <%}else {%>
 
             <td><%=student.getDate()%>
@@ -82,6 +90,20 @@
         </tbody>
     </table>
 </div>
+<div class="wrapper">
+    <span class="menu"></span>
+    <div class="overlay">
+
+        <ul>
+            <li><a href="#">FREE ROOMS</a></li>
+            <li><a href="#">ADD STUDENT</a></li>
+            <li><a href="#">AR</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <button style="position: absolute" class="gradient-button" >lOG OUT</button>
+    </div>
+    <div class="blurry-background"></div>
+</div>
 
 
 </body>
@@ -95,6 +117,7 @@
         border-radius: 5px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
         overflow-y: auto;
+        z-index: 100;
     }
 
     .container::-webkit-scrollbar {
@@ -200,8 +223,6 @@
             transform: translateX(0%);
         }
     }
-</style>
-<style>
     body {
         font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         overflow: auto;
@@ -229,13 +250,14 @@
     }
 
     .gradient-button {
+        top: 20px;
+        right: 20px;
         text-decoration: none;
         color: #4907bb;
         display: inline-block;
         padding: 10px 20px;
         margin: 5px 15px;
         border-radius: 10px;
-        font-family: 'Montserrat', sans-serif;
         text-transform: uppercase;
         letter-spacing: 2px;
         background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, #5000f1 100%);
@@ -248,7 +270,7 @@
 
     .gradient-button:hover {
         background-position: right center;
-        color: #000;
+        color: rgb(0, 0, 0);
         text-shadow: 0 0 10px #f519f5;
     }
 
@@ -332,5 +354,158 @@
         width: 300px;
     }
 
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .wrapper {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        overflow: hidden;
+    }
+
+    .wrapper span {
+        z-index: 999955887;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 35px;
+        height: 4px;
+        background: rgba(5, 45, 147, 0.84);
+        padding-bottom: 2px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .wrapper span:before,
+    .wrapper span:after {
+        display: block;
+        position: absolute;
+        content: '';
+        left: 0;
+        height: 2px;
+        width: 35px;
+        background: rgba(3, 41, 166, 0.89);
+        padding-bottom: 4px;
+        border-radius: 5px;
+    }
+
+    .wrapper span:before {
+        top: -8px;
+    }
+
+    .wrapper span:after {
+        bottom: -8px;
+    }
+
+    .wrapper .overlay {
+        position: absolute;
+        bottom: -100%;
+        height: 100%;
+        background: linear-gradient(rgba(0, 241, 76, 0.82), rgba(73, 7, 187, 0.84));
+        left: 0;
+        width: 100%;
+        transition: all 0.5s ease;
+    }
+
+    .blurry-background {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 99;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+    .blurry {
+        z-index: 100;
+        opacity: 1;
+    }
+
+    .wrapper .overlay.anim {
+        left: 0;
+        bottom: 0;
+        animation: menu-anim 1.5s 1 ease-out forwards;
+        width: 25%;
+        right: 75%;
+        z-index: 9955;
+        transition: all 0.5s ease;
+
+    }
+
+    .wrapper .overlay ul {
+        width: 100%;
+        text-align: center;
+        margin-top: 100px;
+        padding-left: 0;
+        margin-left: -10px;
+        font-size: 1em;
+        font-weight: 800;
+    }
+
+    .wrapper .overlay ul li {
+        margin: 10px 0;
+    }
+
+    .wrapper .overlay ul li a {
+        text-decoration: none;
+        color: #000000;
+        position: relative;
+        display: inline-block;
+        padding: 20px 0;
+        overflow: hidden;
+    }
+
+    .wrapper .overlay ul li a:after {
+        display: block;
+        border-radius: 2px;
+        content: '';
+        left: 0;
+        bottom: -10px;
+        height: 5px;
+        background: #4e00ce;
+        transform: translateX(-101%);
+    }
+
+    .wrapper .overlay ul li a:hover:after {
+        animation: border-anim 0.5s 1 ease normal;
+        transform: translateX(0);
+    }
+
+    @keyframes menu-anim {
+        0% {
+            left: -99.5%;
+            bottom: -99%;
+            width: 100%;
+        }
+
+        50% {
+            left: -99.5%;
+            bottom: 0;
+            width: 100%;
+        }
+
+        100% {
+            bottom: 0;
+            left: 0;
+            width: 25%;
+        }
+    }
+
+    @-webkit-keyframes border-anim {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+</style>
 </style>
 </html>

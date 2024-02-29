@@ -15,5 +15,6 @@ public class Receptionist {
     private String surname;
     private String email;
     private String password;
+    private ReceptionistRole receptionistRole;
 }
 

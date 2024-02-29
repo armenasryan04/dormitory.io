@@ -20,10 +20,25 @@ public class Student {
     private Date date;
     private Dormitory dormitory;
 
-    public long getDaysUntil(Date endDate) {
+    public  String getDaysUntil(Date endDate) {
         long millisecondsPerDay = 1000 * 60 * 60 * 24;
+        long millisecondsPerHour = 1000 * 60 * 60;
         long currentTime = System.currentTimeMillis();
-        long endDateTime = endDate.getTime();
-        return (endDateTime - currentTime) / millisecondsPerDay;
+        long endDateTime = endDate.getTime() + millisecondsPerHour;
+        long timeDiff = endDateTime - currentTime;
+        long days = timeDiff / millisecondsPerDay;
+        long hours = (timeDiff % millisecondsPerDay) / millisecondsPerHour;
+
+        if (days <= 0 && hours <= 0) {
+
+            return 0 + "d " + 0 + "h";
+        }
+
+        if (hours >= 12) {
+            days++;
+            hours = 0;
+        }
+
+        return days + "d " + hours + "h";
     }
 }

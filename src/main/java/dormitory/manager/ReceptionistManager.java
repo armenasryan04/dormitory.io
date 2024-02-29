@@ -3,6 +3,7 @@ package dormitory.manager;
 
 import dormitory.db.DBConnectionProvider;
 import dormitory.models.Receptionist;
+import dormitory.models.ReceptionistRole;
 
 import java.sql.*;
 
@@ -40,11 +41,12 @@ public class ReceptionistManager {
     }
 
     public Receptionist addToDb(Receptionist receptionist) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO receptionist(name,surname,email,password) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO receptionist(name,surname,email,password,role) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, receptionist.getName());
             statement.setString(2, receptionist.getSurname());
             statement.setString(3, receptionist.getEmail());
             statement.setString(4, receptionist.getPassword());
+            statement.setString(5,receptionist.getReceptionistRole().name());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -104,6 +106,7 @@ public class ReceptionistManager {
                 .surname(resultSet.getString("surname"))
                 .email(resultSet.getString("email"))
                 .password(resultSet.getString("password"))
+                .receptionistRole(ReceptionistRole.valueOf(resultSet.getString("role")))
                 .build();
         return receptionist;
     }
