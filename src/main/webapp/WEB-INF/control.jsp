@@ -92,15 +92,14 @@
 </div>
 <div class="wrapper">
     <span class="menu"></span>
-    <div class="overlay">
 
+    <div class="overlay">
+        <a style="position: absolute;top:5px " class="gradient-button" href="/logout" >lOG OUT</a>
         <ul>
-            <li><a href="#">FREE ROOMS</a></li>
+            <li><a href="#">REFACTOR MENU</a></li>
             <li><a href="#">ADD STUDENT</a></li>
-            <li><a href="#">AR</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
         </ul>
-        <button style="position: absolute" class="gradient-button" >lOG OUT</button>
     </div>
     <div class="blurry-background"></div>
 </div>
@@ -260,9 +259,9 @@
         border-radius: 10px;
         text-transform: uppercase;
         letter-spacing: 2px;
-        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, #5000f1 100%);
+        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
         background-size: 200% auto;
-        box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
 
         transition: text-shadow 0.5s ease;
         transition: .5s;
@@ -271,7 +270,7 @@
     .gradient-button:hover {
         background-position: right center;
         color: rgb(0, 0, 0);
-        text-shadow: 0 0 10px #f519f5;
+        box-shadow: 0 0 10px #f519f5;
     }
 
     * {

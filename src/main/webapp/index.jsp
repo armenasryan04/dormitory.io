@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-
+<%if (session.getAttribute("receptionist") != null){
+response.sendRedirect("/login");
+} else {%>
 <html>
 <head>
     <title>List of Rooms</title>
@@ -129,3 +131,4 @@
 </style>
 </body>
 </html>
+<%}%>

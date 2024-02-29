@@ -18,12 +18,18 @@ public class ControlServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String search = req.getParameter("search");
+        String archive = req.getParameter("status");
         List<Student> all;
-        if (search == null){
-            all = studentManager.getAll();
-        }else{
-            all = studentManager.getByNameOrSurname(search);
+        if (archive == null ){
+            if (search == null){
+                all = studentManager.getAllActive();
+            }else{
+                all = studentManager.getByNameOrSurname(search);
+            }
+        }else {
+           all = studentManager.getAllArchive();
         }
+
         req.setAttribute("students",all);
         req.getRequestDispatcher("WEB-INF/control.jsp").forward(req,resp);
 

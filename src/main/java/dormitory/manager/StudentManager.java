@@ -4,6 +4,7 @@ package dormitory.manager;
 import dormitory.db.DBConnectionProvider;
 import dormitory.models.Dormitory;
 import dormitory.models.Student;
+import dormitory.models.StudentStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,11 +14,25 @@ public class StudentManager {
     private Connection connection = DBConnectionProvider.getInstance().getConnection();
     DormitoryManager dormitoryManager = new DormitoryManager();
 
-    public List<Student> getAll() {
+    public List<Student> getAllActive() {
+
         List<Student> students = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * from student order by name asc ");
+            ResultSet resultSet = statement.executeQuery("SELECT * from student where status = 'ACTIVE' order by name asc ");
+            while (resultSet.next()) {
+                students.add(getFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
+    public List<Student> getAllArchive() {
+        List<Student> students = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * from student where status = 'ARCHIVE' order by name asc ");
             while (resultSet.next()) {
                 students.add(getFromResultSet(resultSet));
             }
@@ -76,37 +91,20 @@ public class StudentManager {
         }
         return student;
     }
-
-    public void changeById(int id, Student student) {
-        String name = student.getName();
-        String surname = student.getSurname();
-        String email = student.getEmail();
-        String phoneNum = student.getPhoneNum();
-        Date date = (Date) student.getDate();
-        int roomId = student.getDormitory().getId();
-        String sql = "update student set name = ?,surname = ?,email = ?,phone_num = ?,date = ?,room_id = ? where id = " + id;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, surname);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, phoneNum);
-            preparedStatement.setDate(5, date);
-            preparedStatement.setInt(6, roomId);
-            preparedStatement.executeUpdate();
+    public void checkStatusToChange() {
+        String updateSql = "UPDATE student SET status = 'ARCHIVE' WHERE id = ?";
+        try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+            List<Student> students = getAllActive();
+            for (Student student : students) {
+                if ("0d 0h".equals(student.getDaysUntil(student.getDate()))) {
+                    updateStatement.setInt(1, student.getId());
+                    updateStatement.executeUpdate();
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    public void deleteById(int id) {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeQuery("delete from  student where id = " + id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
     private Student getFromResultSet(ResultSet resultSet) throws SQLException {
         Dormitory dormitory = dormitoryManager.getById(resultSet.getInt("room_id"));
         Student student = Student.builder()
@@ -116,6 +114,7 @@ public class StudentManager {
                 .phoneNum(resultSet.getString("phone_num"))
                 .date(resultSet.getDate("date"))
                 .dormitory(dormitory)
+                .studentStatus(StudentStatus.valueOf(resultSet.getString("status")))
                 .build();
         return student;
     }

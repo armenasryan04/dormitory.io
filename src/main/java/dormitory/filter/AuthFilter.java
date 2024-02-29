@@ -17,7 +17,7 @@ public class AuthFilter implements Filter  {
         if (session.getAttribute("receptionist") != null){
             filterChain.doFilter(req,resp);
         }else {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect("/login.jsp");
         }
     }
 }

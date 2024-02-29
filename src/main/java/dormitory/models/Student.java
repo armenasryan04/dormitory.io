@@ -19,6 +19,7 @@ public class Student {
     private String phoneNum;
     private Date date;
     private Dormitory dormitory;
+    private StudentStatus studentStatus;
 
     public  String getDaysUntil(Date endDate) {
         long millisecondsPerDay = 1000 * 60 * 60 * 24;
@@ -41,4 +42,5 @@ public class Student {
 
         return days + "d " + hours + "h";
     }
+
 }
