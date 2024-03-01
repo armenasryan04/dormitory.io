@@ -74,19 +74,16 @@ public class StudentManager {
     }
 
     public Student addToDB(Student student) {
-        String sql = "insert  into student(name,surname,email,phone_num,date,room_id) values (?,?,?,?,?,?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        String sql = "insert  into student(name,surname,email,phone_num,date,room_id,id) values (?,?,?,?,?,?,?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, student.getName());
             preparedStatement.setString(2, student.getSurname());
             preparedStatement.setString(3, student.getEmail());
             preparedStatement.setString(4, student.getPhoneNum());
             preparedStatement.setDate(5, (Date) student.getDate());
             preparedStatement.setInt(6, student.getDormitory().getId());
+            preparedStatement.setInt(7,student.getId());
             preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                student.setId(resultSet.getInt(1));
-            }
         } catch (SQLException e) {
         }
         return student;

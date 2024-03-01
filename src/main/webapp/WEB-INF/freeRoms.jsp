@@ -1,12 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="dormitory.models.Student" %>
+<%@ page import="dormitory.models.Dormitory" %>
 <html>
 <head>
     <title>List of Rooms</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<% List<Student> students = (List<Student>) request.getAttribute("students"); %>
+<% List<Dormitory> rooms = (List<Dormitory>) request.getAttribute("room"); %>
 <body>
 
 <div class="wave"></div>
@@ -14,7 +15,7 @@
 <div class="wave"></div>
 
 <div class="container">
-    <h1>Welcome to our Dormitory </h1>
+    <h1>CHOOSE ROOM</h1>
     <form id="searchForm" action="/control" method="get">
         <div class="search-box">
             <div class="input-search-background">
@@ -52,37 +53,20 @@
     <table class="table">
         <thead>
         <tr>
-            <th>NAME</th>
-            <th>SURNAME</th>
-            <th>PHONE</th>
-            <th>END DATE</th>
-            <th style="padding-left: 10px">REMAINING DAYS</th>
-            <th>ROOM INFO</th>
+            <th>FLOOR</th>
+            <th>ROOM NUM</th>
+            <th>ADD</th>
         </tr>
         </thead>
         <tbody>
-        <% if (students != null && !students.isEmpty()) { %>
-        <% for (Student student : students) { %>
+        <% if (rooms != null && !rooms.isEmpty()) { %>
+        <% for (Dormitory room : rooms) { %>
         <tr>
-            <td><%= student.getName() %>
+            <td><%= room.getFloor() %>
             </td>
-            <td><%= student.getSurname() %>
+            <td><%= room.getId()%>
             </td>
-            <td><%=student.getPhoneNum()%>
-            </td>
-
-            <%if (student.getDaysUntil(student.getDate()).equals(0 + "d " + 0 + "h")) {%>
-            <td style="color: #650404"><%= student.getDate() %>
-            </td>
-            <td style="padding: 5px; color: #5d0202"><%= student.getDaysUntil(student.getDate()) %>
-                    <%}else {%>
-
-            <td><%=student.getDate()%>
-            </td>
-            <td style="padding: 5px;"><%= student.getDaysUntil(student.getDate()) %>
-            </td>
-            <%}%>
-            <td style="padding-left: 2px "><a href="/roomsInfo?id=<%=student.getId()%>" class="gradient-button">Room</a>
+            <td style="padding-left: 2px "><a href="/studentDataFilling?roomId=<%=room.getId()%>" class="gradient-button">ADD</a>
             </td>
         </tr>
         <% } %>
@@ -96,8 +80,8 @@
     <div class="overlay">
         <a style="position: absolute;top:5px " class="gradient-button" href="/logout" >lOG OUT</a>
         <ul>
+            <li><a href="/control">BACK</a></li>
             <li><a href="#">REFACTOR MENU</a></li>
-            <li><a href="/freeRooms">ADD STUDENT</a></li>
             <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
         </ul>
     </div>

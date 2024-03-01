@@ -41,7 +41,7 @@ public class DormitoryManager {
 
     public boolean isFree(int id) {
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("select from  student where room_id = " + id);
+            ResultSet resultSet = statement.executeQuery("select 1 from  student where status = 'ACTIVE' AND room_id = " + id);
             if (resultSet.next()) {
                 return false;
             } else {
