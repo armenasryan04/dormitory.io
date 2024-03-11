@@ -5,7 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Data
 @Builder
@@ -20,8 +24,9 @@ public class Student {
     private Date date;
     private Dormitory dormitory;
     private StudentStatus studentStatus;
+    private String verifyCode;
 
-    public  String getDaysUntil(Date endDate) {
+    public String getDaysUntil(Date endDate) {
         long millisecondsPerDay = 1000 * 60 * 60 * 24;
         long millisecondsPerHour = 1000 * 60 * 60;
         long currentTime = System.currentTimeMillis();

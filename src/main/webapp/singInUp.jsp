@@ -1,75 +1,89 @@
-
-
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<html>
 <head>
-
+    <title>List of Rooms</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <div class="title">Registration</div>
-    <div class="content">
-        <form action="#">
-            <div class="user-details">
-                <div class="input-box">
-                    <span class="details">Name</span>
-                    <input type="text" placeholder="Enter your name" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Surname</span>
-                    <input type="text" placeholder="Enter your username" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Email</span>
-                    <input type="text" placeholder="Enter your email" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Phone Number</span>
-                    <input type="text" placeholder="Enter your number" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Password</span>
-                    <input type="text" placeholder="Enter your password" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Confirm Password</span>
-                    <input type="text" placeholder="Confirm your password" required>
-                </div>
-            </div>
-            <div class="button">
-                <input type="submit" value="Register">
-            </div>
-        </form>
+
+<div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
+
+<script>
+    $(document).ready(function () {
+        $('.menu').click(function () {
+            $('.overlay').toggleClass('anim');
+            $(this).toggleClass('open');
+            $('.blurry-background').toggleClass('blurry');
+        });
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
+                $('.overlay').removeClass('anim');
+                $('.menu').removeClass('open');
+                $('.blurry-background').removeClass('blurry');
+            }
+        });
+    });
+</script>
+
+<br/>
+<div class="wrapper">
+    <span class="menu"></span>
+
+    <div class="overlay">
+        <a style="position: absolute;top:5px " class="gradient-button" href="/logout" >lOG OUT</a>
+        <ul>
+            <li><a href="/login.jsp">Back</a></li>
+        </ul>
     </div>
+    <div class="blurry-background"></div>
 </div>
+
+<div class="wrapper-data">
+    <div class="title">Add Student</div>
+
+    <form action="/receptionistRegistration" method="post">
+        <div class="field">
+            <input type="text" required name="name">
+            <label class="input-box">Name</label>
+        </div>
+        <div class="field" >
+            <input type="text" required name="surname">
+            <label class="input-box" style=" float: right;">Surname</label>
+        </div>
+
+
+        <div class="field">
+            <input type="text" required name="email">
+            <label class="input-box">Email</label>
+        </div>
+
+        <div class="field">
+            <input type="text" required name="phone">
+            <label class="input-box">Phone Number</label>
+        </div>
+
+        <div class="field">
+            <input type="text" required name="id">
+            <label class="input-box">Inspection Booklet</label>
+        </div>
+
+        <div class="field">
+            <input type="date" name="date">
+            <label>Choose Date</label>
+        </div>
+
+
+
+
+        <div class="field" >
+            <br/>   <input type="submit" value="add">
+        </div>
+
+    </form>
 </body>
-
-<style>
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        overflow: auto;
-        background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
-        animation: gradient 15s ease infinite;
-        background-size: 400% 400%;
-        background-attachment: fixed;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-    }
-
-    @keyframes gradient {
-        0% {
-            background-position: 0% 0%;
-        }
-        50% {
-            background-position: 100% 100%;
-        }
-        100% {
-            background-position: 0% 0%;
-        }
-    }
+<style type="text/css">
 
     .wave {
         background: rgb(255 255 255 / 25%);
@@ -118,143 +132,342 @@
             transform: translateX(0%);
         }
     }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow: auto;
+        background: linear-gradient(315deg, rgba(101, 0, 94, 1) 3%, rgba(60, 132, 206, 1) 38%, rgba(48, 238, 226, 1) 68%, rgba(255, 25, 25, 1) 98%);
+        animation: gradient 15s ease infinite;
+        background-size: 400% 400%;
+        background-attachment: fixed;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
 
-*{
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Poppins',sans-serif;
-}
+    @keyframes gradient {
+        0% {
+            background-position: 0% 0%;
+        }
+        50% {
+            background-position: 100% 100%;
+        }
+        100% {
+            background-position: 0% 0%;
+        }
+    }
 
-.container{
-    max-width: 700px;
-    width: 100%;
-    background: linear-gradient(135deg, #ef7636, #f1c700);
-    padding: 25px 30px;
-    border-radius: 5px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
-}
-.container .title{
-font-size: 25px;
-font-weight: 500;
-position: relative;
-}
-.container .title::before{
-content: "";
-position: absolute;
-left: 0;
-bottom: 0;
-height: 3px;
-width: 30px;
-border-radius: 5px;
-background: linear-gradient(135deg, #71b7e6, #161c2d);
-}
-.content form .user-details{
-display: flex;
-flex-wrap: wrap;
-justify-content: space-between;
-margin: 20px 0 12px 0;
-}
-form .user-details .input-box{
-margin-bottom: 15px;
-width: calc(100% / 2 - 20px);
-}
-form .input-box span.details{
-display: block;
-font-weight: 500;
-margin-bottom: 5px;
-}
-.user-details .input-box input{
-height: 45px;
-width: 100%;
-outline: none;
-font-size: 16px;
-border-radius: 5px;
-padding-left: 15px;
-border: 1px solid #ccc;
-border-bottom-width: 2px;
-transition: all 0.3s ease;
-}
-.user-details .input-box input:focus,
-.user-details .input-box input:valid{
-border-color: #eada3d;
-}
-form .gender-details .gender-title{
-font-size: 20px;
-font-weight: 500;
-}
-form .category{
-display: flex;
-width: 80%;
-margin: 14px 0 ;
-justify-content: space-between;
-}
-form .category label{
-display: flex;
-align-items: center;
-cursor: pointer;
-}
-form .category label .dot{
-height: 18px;
-width: 18px;
-border-radius: 50%;
-margin-right: 10px;
-background: #d9d9d9;
-border: 5px solid transparent;
-transition: all 0.3s ease;
-}
-#dot-1:checked ~ .category label .one,
-#dot-2:checked ~ .category label .two,
-#dot-3:checked ~ .category label .three{
-background: #e0ec60;
-border-color: #a2b9e0;
-}
-form input[type="radio"]{
-display: none;
-}
-form .button{
-height: 45px;
-margin: 35px 0
-}
-form .button input{
-height: 100%;
-width: 100%;
-border-radius: 5px;
-border: none;
-color: #fff;
-font-size: 18px;
-font-weight: 500;
-letter-spacing: 1px;
-cursor: pointer;
-    background-image: linear-gradient(to right, rgba(255, 216, 31, 0.7) 0%, #ffd825 51%, rgba(133, 253, 53, 0.6) 100%);
-    background-size: 200% auto;
-    transition: 0.5s;
+    .gradient-button {
+        top: 20px;
+        right: 20px;
+        text-decoration: none;
+        color: #4907bb;
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px 15px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
+        background-size: 200% auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
 
-}
-form .button input:hover{
-    background-position: right center;
-}
-@media(max-width: 584px){
-.container{
-max-width: 100%;
-}
-form .user-details .input-box{
-margin-bottom: 15px;
-width: 100%;
-}
+        transition: text-shadow 0.5s ease;
+        transition: .5s;
+    }
 
-.content form .user-details{
-max-height: 300px;
-overflow-y: scroll;
-}
-.user-details::-webkit-scrollbar{
-width: 5px;
-}
-}
-@media(max-width: 459px){
-.container .content .category{
-flex-direction: column;
-}
-}
+    .gradient-button:hover {
+        background-position: right center;
+        color: rgb(0, 0, 0);
+        box-shadow: 0 0 10px #f519f5;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #6259e7;
+        font-family: 'Lato', sans-serif;
+    }
+
+
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .wrapper {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        overflow: hidden;
+    }
+
+    .wrapper span {
+        z-index: 999955887;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 35px;
+        height: 4px;
+        background: rgba(5, 45, 147, 0.84);
+        padding-bottom: 2px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .wrapper span:before,
+    .wrapper span:after {
+        display: block;
+        position: absolute;
+        content: '';
+        left: 0;
+        height: 2px;
+        width: 35px;
+        background: rgba(3, 41, 166, 0.89);
+        padding-bottom: 4px;
+        border-radius: 5px;
+    }
+
+    .wrapper span:before {
+        top: -8px;
+    }
+
+    .wrapper span:after {
+        bottom: -8px;
+    }
+
+    .wrapper .overlay {
+        position: absolute;
+        bottom: -100%;
+        height: 100%;
+        background: linear-gradient(rgba(0, 241, 76, 0.82), rgba(73, 7, 187, 0.84));
+        left: 0;
+        width: 100%;
+        transition: all 0.5s ease;
+    }
+
+    .blurry-background {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 99;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+    .blurry {
+        z-index: 100;
+        opacity: 1;
+    }
+
+    .wrapper .overlay.anim {
+        left: 0;
+        bottom: 0;
+        animation: menu-anim 1.5s 1 ease-out forwards;
+        width: 25%;
+        right: 75%;
+        z-index: 9955;
+        transition: all 0.5s ease;
+
+    }
+
+    .wrapper .overlay ul {
+        width: 100%;
+        text-align: center;
+        margin-top: 100px;
+        padding-left: 0;
+        margin-left: -10px;
+        font-size: 1em;
+        font-weight: 800;
+    }
+
+    .wrapper .overlay ul li {
+        margin: 10px 0;
+    }
+
+    .wrapper .overlay ul li a {
+        text-decoration: none;
+        color: #000000;
+        position: relative;
+        display: inline-block;
+        padding: 20px 0;
+        overflow: hidden;
+    }
+
+    .wrapper .overlay ul li a:after {
+        display: block;
+        border-radius: 2px;
+        content: '';
+        left: 0;
+        bottom: -10px;
+        height: 5px;
+        background: #4e00ce;
+        transform: translateX(-101%);
+    }
+
+    .wrapper .overlay ul li a:hover:after {
+        animation: border-anim 0.5s 1 ease normal;
+        transform: translateX(0);
+    }
+
+    @keyframes menu-anim {
+        0% {
+            left: -99.5%;
+            bottom: -99%;
+            width: 100%;
+        }
+
+        50% {
+            left: -99.5%;
+            bottom: 0;
+            width: 100%;
+        }
+
+        100% {
+            bottom: 0;
+            left: 0;
+            width: 25%;
+        }
+    }
+
+    @-webkit-keyframes border-anim {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+    ::selection {
+        background: #4158d0;
+        color: #ffffff;
+    }
+
+    .wrapper-data {
+        width: 380px;
+        background:  linear-gradient(135deg, rgba(165, 54, 239, 0.44), #00878c);
+        border-radius: 15px;
+        box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+
+    .wrapper-data .title {
+        font-size: 35px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 100px;
+        color: #fff;
+        user-select: none;
+        border-radius: 15px 15px 0 0;
+        background:linear-gradient(135deg, #a436ed, #36b7ef); );
+    }
+
+    .wrapper-data form {
+        padding: 10px 30px 50px 30px;
+    }
+
+    .wrapper-data form .field {
+        height: 50px;
+        width: 100%;
+        margin-top: 20px;
+        position: relative;
+    }
+
+    .wrapper-data form .field input {
+        height: 100%;
+        width: 100%;
+        outline: none;
+        font-size: 17px;
+        padding-left: 20px;
+        border: 1px solid lightgrey;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        background: rgba(157, 241, 217, 0.29);
+    }
+
+    .wrapper-data form .field input:focus,
+    form .field input:valid {
+        border-color: #c7af62;
+    }
+
+    .wrapper-data form .field label {
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        color: #151b2c;
+        font-weight: 400;
+        font-size: 17px;
+        pointer-events: none;
+        transform: translateY(-50%);
+        transition: all 0.3s ease;
+    }
+
+    form .field input:focus ~ label,
+    form .field input:valid ~ label {
+        top: 0%;
+        font-size: 14px;
+        color: rgba(30, 2, 166, 0.4);
+        background:linear-gradient(135deg, #a436ed, #36b7ef);
+        border-radius: 7px;
+        transform: translateY(-50%);
+    }
+
+
+    form .content input {
+        width: 15px;
+        height: 15px;
+        background: red;
+    }
+
+    form .content label {
+        color: #1b50a2;
+        user-select: none;
+        padding-left: 5px;
+    }
+    form .field input[type="submit"] {
+        color: #4907bb;
+        border: none;
+        padding-left: 0;
+        margin-top: -10px;
+        font-size: 20px;
+        font-weight: 500;
+        cursor: pointer;
+        background-image: linear-gradient(to right, #6ee547, #4158d0);
+        background-size:200% auto;
+        transition: all 0.5s ease;
+    }
+    form .field input[type =  "submit"]:hover{
+        background-position: right center;
+        color: #6ee547;
+    }
+
+    form .field input[type="submit"]:active {
+        transform: scale(0.95);
+    }
+
+
+    form .pass-link a,
+    form .signup-link a {
+        color: rgba(172, 208, 65, 0.76);
+        text-decoration: none;
+    }
+    form .pass-link a:hover,
+    form .signup-link a:hover {
+        text-decoration: underline;
+    }
+
 </style>
 </html>

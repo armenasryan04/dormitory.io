@@ -24,9 +24,8 @@ response.sendRedirect("/login");
 </div>
 <style>
     .container {
-        max-width: 800px;
         width: 50%;
-        background-color: #80caff;
+        background-color: #5ca2d3;
         padding: 25px 30px;
         border-radius: 5px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);

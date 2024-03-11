@@ -13,11 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @WebServlet("/addStudent")
-public class AddStudentServlet extends HttpServlet {
-
+public class AddServlet extends HttpServlet {
     StudentManager studentManager = new StudentManager();
     DormitoryManager dormitoryManager = new DormitoryManager();
 
@@ -35,18 +33,22 @@ public class AddStudentServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         Student student = Student.builder()
-                .name(req.getParameter("name"))
-                .surname(req.getParameter("surname"))
-                .id(Integer.parseInt(req.getParameter("id")))
-                .phoneNum(req.getParameter("phone"))
-                .email(req.getParameter("email"))
+                .name(req.getParameter("name").trim())
+                .surname(req.getParameter("surname").trim())
+                .id(Integer.parseInt(req.getParameter("id").trim()))
+                .phoneNum(req.getParameter("phoneNum").trim())
+                .email(req.getParameter("email").trim())
+                .verifyCode(req.getParameter("checkCode").trim())
                 .date(sqlDate)
-                .dormitory(room).
-                build();
-        studentManager.addToDB(student);
-        req.getRequestDispatcher("WEB-INF/control.jsp").forward(req,resp);
+                .dormitory(room)
+                .build();
+        if (student.getVerifyCode().equals(req.getParameter("code").trim())) {
+            studentManager.addToDB(student);
+            resp.sendRedirect("/control");
+        }else {
+            resp.sendRedirect("/");
+        }
     }
-
-
 }

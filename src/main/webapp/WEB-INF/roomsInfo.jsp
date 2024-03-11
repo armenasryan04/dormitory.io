@@ -37,10 +37,10 @@ String isFree = (String) request.getAttribute("timer");%>
         <tr>
             <td><%= dormitory.getFloor() %>
             </td>
-            <td><%= dormitory.getFloor() %>
+            <td><%= dormitory.getRoomNum() %>
             </td>
             <% if (isFree == 0 + "d " + 0 + "h" ){%>
-            <td style="color: green"><%= releaseDate %>
+            <td style="color: #830505"><%= releaseDate %>
             </td>
             <%}else {%>
             <td><%= releaseDate %>

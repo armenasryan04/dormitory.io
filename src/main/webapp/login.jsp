@@ -6,29 +6,36 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
     <title>Login RECEPTIONIST</title>
     <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 <div class="wave"></div>
 <div class="wave"></div>
 <div class="wave"></div>
+
+
 <div class="wrapper">
     <div class="title">
         RECEPTION
     </div>
+
     <form action="/login" method="post" >
         <div class="field">
-            <input name="email" type="text" >
-            <label>Email Address</label>
+
+            <input required name="email" type="text" >
+            <label ><i class='bx bxs-user' >  E-MAIL</i></label>
+
         </div>
         <div class="field">
-            <input name="password" type="password" >
-            <label>Password</label>
+            <input  required name="password" type="password" >
+            <label><i class='bx bxs-lock'>  PASSWORD</i></label>
+
         </div>
         <div class="content">
             <div class="pass-link">
@@ -42,8 +49,46 @@
             Register <a href="/singInUp.jsp">SingIn up </a>
         </div>
     </form>
+    <% if (request.getAttribute("errMsg") != null) { %>
+    <div id="errorContainer" class="error-container">
+        <div id="errorMessage" class="error-message">
+            <p><%= request.getAttribute("errMsg") %></p>
+        </div>
+
+    <% } %>
+</div>
 </div>
 </body>
+<script>
+    function handleButtonClick() {
+        var errorContainer = document.getElementById('errorContainer');
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorContainer && errorContainer.contains(event.target) && !errorMessage.contains(event.target) ) {
+            errorContainer.style.display = 'none';
+            errorMessage.style.display = 'none'
+
+        }
+    };
+    function handleEnterKeyPress() {
+        if (event.key === 'Enter' || event.keyCode === 32 ) {
+
+            var errorContainer = document.getElementById('errorContainer');
+            var errorMessage = document.getElementById('errorMessage');
+                errorContainer.style.display = 'none';
+                errorMessage.style.display = 'none'
+        }
+    }
+    <% if (request.getAttribute("errMsg") != null) { %>
+    document.getElementById('errorMessage').style.display = 'flex';
+    document.getElementById('errorContainer').style.display = 'flex';
+
+    <% } %>
+
+
+    document.body.addEventListener('keypress',handleEnterKeyPress)
+    document.body.addEventListener('click', handleButtonClick);
+
+</script>
 <style>
     @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
@@ -91,7 +136,6 @@
         opacity: 0.8;
         bottom: 0;
         left: 0;
-        z-index: 1;
     }
 
     .wave:nth-of-type(2) {
@@ -137,7 +181,6 @@
         width: 380px;
         background:  linear-gradient(135deg, rgba(165, 54, 239, 0.44), #00878c);
         border-radius: 15px;
-        box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
     }
 
     .wrapper .title {
@@ -148,7 +191,7 @@
         color: #fff;
         user-select: none;
         border-radius: 15px 15px 0 0;
-        background:linear-gradient(135deg, #a436ed, #36b7ef); );
+        background:linear-gradient(135deg, #a436ed, #36b7ef);
     }
 
     .wrapper form {
@@ -168,7 +211,7 @@
         outline: none;
         font-size: 17px;
         padding-left: 20px;
-        border: 1px solid lightgrey;
+        border: 1px solid #045ac9;
         border-radius: 25px;
         transition: all 0.3s ease;
         background: rgba(157, 241, 217, 0.29);
@@ -176,7 +219,7 @@
 
     .wrapper form .field input:focus,
     form .field input:valid {
-        border-color: #c7af62;
+        border-color: #9be130;
     }
 
     .wrapper form .field label {
@@ -227,6 +270,22 @@
         user-select: none;
         padding-left: 5px;
     }
+    .error-container {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(3px);
+        justify-content: center;
+        align-items: center;
+    }
+    .error-message {
+        background-color: rgb(114, 3, 3);
+        padding: 20px;
+        border-radius: 5px;
+    }
 
     form .content .pass-link {
         color: darkblue;
@@ -270,4 +329,3 @@
     }
 
 </style>
-</html>

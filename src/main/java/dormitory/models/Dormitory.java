@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class Dormitory {
     private int id;
     private int floor;
-    private Receptionist responsible;
+    private int roomNum;
 }
 

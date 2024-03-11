@@ -1,11 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="dormitory.models.Student" %>
 <%@ page import="dormitory.models.Dormitory" %>
 <html>
 <head>
     <title>List of Rooms</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <% List<Dormitory> rooms = (List<Dormitory>) request.getAttribute("room"); %>
 <body>
@@ -16,7 +16,7 @@
 
 <div class="container">
     <h1>CHOOSE ROOM</h1>
-    <form id="searchForm" action="/control" method="get">
+    <form id="searchForm" action="/freeRooms" method="post">
         <div class="search-box">
             <div class="input-search-background">
                 <div class="btn-search">
@@ -26,28 +26,7 @@
             </div>
         </div>
     </form>
-    <script>
-        document.getElementById('searchInput').addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                document.getElementById('searchForm').submit();
-            }
-        });
-        $(document).ready(function () {
-            $('.menu').click(function () {
-                $('.overlay').toggleClass('anim');
-                $(this).toggleClass('open');
-                $('.blurry-background').toggleClass('blurry');
-            });
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
-                    $('.overlay').removeClass('anim');
-                    $('.menu').removeClass('open');
-                    $('.blurry-background').removeClass('blurry');
-                }
-            });
-        });
-    </script>
+
 
     <br/>
     <table class="table">
@@ -64,9 +43,10 @@
         <tr>
             <td><%= room.getFloor() %>
             </td>
-            <td><%= room.getId()%>
+            <td><%= room.getRoomNum()%>
             </td>
-            <td style="padding-left: 2px "><a href="/studentDataFilling?roomId=<%=room.getId()%>" class="gradient-button">ADD</a>
+            <td style="padding-left: 2px "><a href="/studentDataFilling?roomId=<%=room.getId()%>" method="p"
+                                              class="gradient-button">ADD</a>
             </td>
         </tr>
         <% } %>
@@ -75,10 +55,11 @@
     </table>
 </div>
 <div class="wrapper">
-    <span class="menu"></span>
+    <span class="menu"><i style="font-size:44px; " class='bx bx-menu'></i></span>
+
 
     <div class="overlay">
-        <a style="position: absolute;top:5px " class="gradient-button" href="/logout" >lOG OUT</a>
+        <a style="position: absolute;top:5px " class="gradient-button" href="/logout"><i class='bx bx-log-out'></i></a>
         <ul>
             <li><a href="/control">BACK</a></li>
             <li><a href="#">REFACTOR MENU</a></li>
@@ -87,8 +68,11 @@
     </div>
     <div class="blurry-background"></div>
 </div>
-
-
+<div id="errorContainer" class="error-container">
+    <div id="errorMessage" class="error-message">
+        <p>Incorrect Search <br/>Floor - Room Num</p>
+    </div>
+</div>
 </body>
 <style type="text/css">
     .container {
@@ -159,6 +143,28 @@
         background: #4c698d !important;
     }
 
+    .error-container {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(3px);
+        justify-content: center;
+        align-items: center;
+        z-index: 999999999999999;
+    }
+
+    .error-message {
+        display: none;
+        background-color: rgb(114, 3, 3);
+        padding: 20px;
+        border-radius: 5px;
+        z-index: 10000000;
+    }
+
+
     .wave {
         background: rgb(255 255 255 / 25%);
         border-radius: 1000% 1000% 0 0;
@@ -206,6 +212,7 @@
             transform: translateX(0%);
         }
     }
+
     body {
         font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         overflow: auto;
@@ -349,38 +356,34 @@
         overflow: hidden;
     }
 
+    .wrapper i {
+        font-size: 25px;
+    }
+
     .wrapper span {
+
         z-index: 999955887;
         position: absolute;
-        top: 20px;
+        top: 10px;
         left: 20px;
-        width: 35px;
-        height: 4px;
-        background: rgba(5, 45, 147, 0.84);
-        padding-bottom: 2px;
-        border-radius: 5px;
+        width: 64px;
+        height: 43px;
+        color: #4907bb;
+        display: inline-block;
+        padding: 0px 9px;
+        margin: auto;
+        border-radius: 10px;
         cursor: pointer;
+        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
+        background-size: 200% auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
+        transition: text-shadow 0.5s ease, .5s;
     }
 
-    .wrapper span:before,
-    .wrapper span:after {
-        display: block;
-        position: absolute;
-        content: '';
-        left: 0;
-        height: 2px;
-        width: 35px;
-        background: rgba(3, 41, 166, 0.89);
-        padding-bottom: 4px;
-        border-radius: 5px;
-    }
-
-    .wrapper span:before {
-        top: -8px;
-    }
-
-    .wrapper span:after {
-        bottom: -8px;
+    .wrapper span:hover {
+        background-position: right center;
+        color: rgb(0, 0, 0);
+        box-shadow: 0 0 10px #f519f5;
     }
 
     .wrapper .overlay {
@@ -405,6 +408,7 @@
         opacity: 0;
         transition: opacity 0.5s ease;
     }
+
     .blurry {
         z-index: 100;
         opacity: 1;
@@ -490,5 +494,46 @@
         }
     }
 </style>
-</style>
+<script>
+    document.getElementById('searchInput').addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            var inputValue = document.getElementById('searchInput').value;
+            if (!/^\d+\-\d+$/.test(inputValue) && inputValue !== "") {
+                event.preventDefault();
+                document.getElementById('searchInput').disabled = true;
+                var errorContainer = document.getElementById('errorContainer');
+                var errorMessage = document.getElementById('errorMessage');
+                errorContainer.style.display = 'flex';
+                errorMessage.style.display = 'block';
+                document.getElementById('searchInput').value = "";
+
+                function handleButtonClick(event) {
+                    if (!errorMessage.contains(event.target)) {
+                        errorContainer.style.display = 'none';
+                        errorMessage.style.display = 'none';
+                        document.getElementById('searchInput').disabled = false;
+                    }
+                }
+                document.body.addEventListener('click', handleButtonClick);
+
+            } else {
+                document.getElementById('searchForm').submit();
+            }
+        }
+    });
+    $(document).ready(function () {
+        $('.menu').click(function () {
+            $('.overlay').toggleClass('anim');
+            $(this).toggleClass('open');
+            $('.blurry-background').toggleClass('blurry');
+        });
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
+                $('.overlay').removeClass('anim');
+                $('.menu').removeClass('open');
+                $('.blurry-background').removeClass('blurry');
+            }
+        });
+    });
+</script>
 </html>

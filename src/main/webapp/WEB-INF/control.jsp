@@ -5,6 +5,7 @@
 <head>
     <title>List of Rooms</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <% List<Student> students = (List<Student>) request.getAttribute("students"); %>
 <body>
@@ -52,25 +53,33 @@
     <table class="table">
         <thead>
         <tr>
+            <th>Inspection </br>Booklet Num</th>
             <th>NAME</th>
             <th>SURNAME</th>
             <th>PHONE</th>
+            <th>E-Mail</th>
             <th>END DATE</th>
             <th style="padding-left: 10px">REMAINING DAYS</th>
             <th>ROOM INFO</th>
+
         </tr>
         </thead>
         <tbody>
         <% if (students != null && !students.isEmpty()) { %>
         <% for (Student student : students) { %>
         <tr>
+            <td>
+                <%=student.getId()%>
+            </td>
             <td><%= student.getName() %>
             </td>
             <td><%= student.getSurname() %>
             </td>
             <td><%=student.getPhoneNum()%>
             </td>
-
+            <td>
+                <%=student.getEmail()%>
+            </td>
             <%if (student.getDaysUntil(student.getDate()).equals(0 + "d " + 0 + "h")) {%>
             <td style="color: #650404"><%= student.getDate() %>
             </td>
@@ -91,14 +100,21 @@
     </table>
 </div>
 <div class="wrapper">
-    <span class="menu"></span>
+
+    <span class="menu"><i style="font-size:44px; " class='bx bx-menu'></i></span>
 
     <div class="overlay">
-        <a style="position: absolute;top:5px " class="gradient-button" href="/logout" >lOG OUT</a>
+        <a style="position: absolute;top:5px " class="gradient-button" href="/logout"><i class='bx bx-log-out'></i></a>
         <ul>
-            <li><a href="#">REFACTOR MENU</a></li>
             <li><a href="/freeRooms">ADD STUDENT</a></li>
+            <li><a href="/refactorMenu">REFACTOR MENU</a></li>
+            <%if (request.getAttribute("inArchive") == null) { %>
             <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
+            <%} else {%>
+            <li><a href="/control">Back</a></li>
+            <%
+                };
+            %>
         </ul>
     </div>
     <div class="blurry-background"></div>
@@ -108,7 +124,7 @@
 </body>
 <style type="text/css">
     .container {
-        max-width: 800px;
+        max-width: 1150px;
         width: 100%;
         max-height: 90%;
         background: linear-gradient(1355deg, rgba(66, 246, 231, 0.87), #69d7ff);
@@ -222,6 +238,7 @@
             transform: translateX(0%);
         }
     }
+
     body {
         font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         overflow: auto;
@@ -364,41 +381,35 @@
         position: absolute;
         overflow: hidden;
     }
+    .wrapper i {
+        font-size: 25px;
+    }
 
     .wrapper span {
+
         z-index: 999955887;
         position: absolute;
-        top: 20px;
+        top: 10px;
         left: 20px;
-        width: 35px;
-        height: 4px;
-        background: rgba(5, 45, 147, 0.84);
-        padding-bottom: 2px;
-        border-radius: 5px;
+        width: 64px;
+        height: 43px;
+        color: #4907bb;
+        display: inline-block;
+        padding: 0px 9px;
+        margin: auto;
+        border-radius: 10px;
         cursor: pointer;
+        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
+        background-size: 200% auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
+        transition: text-shadow 0.5s ease, .5s;
     }
 
-    .wrapper span:before,
-    .wrapper span:after {
-        display: block;
-        position: absolute;
-        content: '';
-        left: 0;
-        height: 2px;
-        width: 35px;
-        background: rgba(3, 41, 166, 0.89);
-        padding-bottom: 4px;
-        border-radius: 5px;
+    .wrapper span:hover {
+        background-position: right center;
+        color: rgb(0, 0, 0);
+        box-shadow: 0 0 10px #f519f5;
     }
-
-    .wrapper span:before {
-        top: -8px;
-    }
-
-    .wrapper span:after {
-        bottom: -8px;
-    }
-
     .wrapper .overlay {
         position: absolute;
         bottom: -100%;
@@ -421,6 +432,7 @@
         opacity: 0;
         transition: opacity 0.5s ease;
     }
+
     .blurry {
         z-index: 100;
         opacity: 1;
@@ -505,6 +517,5 @@
             transform: translateX(0);
         }
     }
-</style>
 </style>
 </html>

@@ -14,7 +14,7 @@ import java.io.IOException;
 public class StudentAddFormServlet extends HttpServlet {
     DormitoryManager dormitoryManager = new DormitoryManager();
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException,NullPointerException,NumberFormatException {
         int id = Integer.parseInt(req.getParameter("roomId"));
         Dormitory dormitory = dormitoryManager.getById(id);
         req.setAttribute("room",dormitory);

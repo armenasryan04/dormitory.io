@@ -1,10 +1,16 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: User
+  Date: 04.03.2024
+  Time: 20:06
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="dormitory.models.Dormitory" %>
+<%@ page import="dormitory.models.Student" %>
 <html>
 <head>
     <title>List of Rooms</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
@@ -12,110 +18,59 @@
 <div class="wave"></div>
 <div class="wave"></div>
 
+<script>
+    $(document).ready(function () {
+        $('.menu').click(function () {
+            $('.overlay').toggleClass('anim');
+            $(this).toggleClass('open');
+            $('.blurry-background').toggleClass('blurry');
+        });
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
+                $('.overlay').removeClass('anim');
+                $('.menu').removeClass('open');
+                $('.blurry-background').removeClass('blurry');
+            }
+        });
+    });
+</script>
 
 <br/>
 <div class="wrapper">
-    <span class="menu"><i style="font-size:44px; " class='bx bx-menu'></i></span>
+    <span class="menu"></span>
 
     <div class="overlay">
-        <a style="position: absolute;top:5px " class="gradient-button" href="/logout"><i class='bx bx-log-out'></i></a>
+        <a style="position: absolute;top:5px " class="gradient-button" href="/logout" >lOG OUT</a>
         <ul>
-            <li><a href="/freeRooms">BACK</a></li>
             <li><a href="#">REFACTOR MENU</a></li>
+            <li><a href="/freeRooms">ADD STUDENT</a></li>
             <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
         </ul>
     </div>
     <div class="blurry-background"></div>
 </div>
-
+<%Student student = (Student) request.getAttribute("student");%>
 <div class="wrapper-data">
-        <%Dormitory dormitory = (Dormitory) request.getAttribute("room");%>
     <div class="title">Add Student</div>
 
-    <form action="/emailVerify?roomId=<%=dormitory.getId()%>" method="post">
+    <form action="/addStudent" method="post">
         <div class="field">
-            <input type="text" required name="name">
-            <label class="input-box">Name</label>
+            <input type="text" required name="code">
+            <label class="input-box">Check your Gmail</label>
         </div>
-        <div class="field">
-            <input type="text" required name="surname">
-            <label class="input-box" style=" float: right;">Surname</label>
+        <input type="hidden" name="name" value="<%=student.getName()%>">
+        <input type="hidden" name="surname" value="<%=student.getSurname()%>">
+        <input type="hidden" name="id" value="<%=student.getId()%>">
+        <input type="hidden" name ="roomId" value="<%=student.getDormitory().getId()%>">
+        <input type="hidden" name="email" value="<%=student.getEmail()%>">
+        <input type="hidden" name="phoneNum" value="<%=student.getPhoneNum()%>">
+        <input type="hidden" name="date" value="<%=student.getDate()%>">
+        <input type="hidden" name="checkCode" value="<%=student.getVerifyCode()%>">
+        <div class="field" >
+            <br/>   <input type="submit" value="add">
         </div>
-
-        <div class="field">
-            <input type="text" required name="phone">
-            <label class="input-box">Phone Number</label>
-        </div>
-        <div class="field">
-            <input type="email" required name="email">
-            <label class="input-box">G-Mail</label>
-        </div>
-        <div class="field">
-            <input type="text" required name="id">
-            <label class="input-box">Inspection Booklet Num</label>
-        </div>
-
-        <div class="field">
-            <input type="date" name="date">
-            <label>Choose Date</label>
-        </div>
-
-        <div class="field">
-            <br/> <input type="submit" value="add">
-        </div>
-
     </form>
-        <% if (request.getAttribute("errMsg") != null) { %>
-    <div id="errorContainer" class="error-container">
-        <div id="errorMessage" class="error-message">
-            <p><%= request.getAttribute("errMsg") %>
-            </p>
-        </div>
-        <% } %>
     </div>
-            <script>
-                $(document).ready(function () {
-                    $('.menu').click(function () {
-                        $('.overlay').toggleClass('anim');
-                        $(this).toggleClass('open');
-                        $('.blurry-background').toggleClass('blurry');
-                    });
-                    $(document).click(function (event) {
-                        if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
-                            $('.overlay').removeClass('anim');
-                            $('.menu').removeClass('open');
-                            $('.blurry-background').removeClass('blurry');
-                        }
-                    });
-                });
-                function handleButtonClick() {
-                    var errorContainer = document.getElementById('errorContainer');
-                    var errorMessage = document.getElementById('errorMessage');
-                    if (errorContainer && errorContainer.contains(event.target) && !errorMessage.contains(event.target) ) {
-                        errorContainer.style.display = 'none';
-                        errorMessage.style.display = 'none'
-
-                    }
-                };
-                function handleEnterKeyPress() {
-                    if (event.key === 'Enter' || event.keyCode === 32 ) {
-
-                        var errorContainer = document.getElementById('errorContainer');
-                        var errorMessage = document.getElementById('errorMessage');
-                        errorContainer.style.display = 'none';
-                        errorMessage.style.display = 'none'
-                    }
-                }
-                <% if (request.getAttribute("errMsg") != null) { %>
-                document.getElementById('errorMessage').style.display = 'flex';
-                document.getElementById('errorContainer').style.display = 'flex';
-                <% } %>
-
-
-                document.body.addEventListener('keypress',handleEnterKeyPress)
-                document.body.addEventListener('click', handleButtonClick);
-            </script>
-
 </body>
 <style type="text/css">
 
@@ -166,7 +121,6 @@
             transform: translateX(0%);
         }
     }
-
     body {
         font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         overflow: auto;
@@ -246,34 +200,38 @@
         overflow: hidden;
     }
 
-    .wrapper i {
-        font-size: 25px;
-    }
-
     .wrapper span {
-
         z-index: 999955887;
         position: absolute;
-        top: 10px;
+        top: 20px;
         left: 20px;
-        width: 64px;
-        height: 43px;
-        color: #4907bb;
-        display: inline-block;
-        padding: 0px 9px;
-        margin: auto;
-        border-radius: 10px;
+        width: 35px;
+        height: 4px;
+        background: rgba(5, 45, 147, 0.84);
+        padding-bottom: 2px;
+        border-radius: 5px;
         cursor: pointer;
-        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
-        background-size: 200% auto;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
-        transition: text-shadow 0.5s ease, .5s;
     }
 
-    .wrapper span:hover {
-        background-position: right center;
-        color: rgb(0, 0, 0);
-        box-shadow: 0 0 10px #f519f5;
+    .wrapper span:before,
+    .wrapper span:after {
+        display: block;
+        position: absolute;
+        content: '';
+        left: 0;
+        height: 2px;
+        width: 35px;
+        background: rgba(3, 41, 166, 0.89);
+        padding-bottom: 4px;
+        border-radius: 5px;
+    }
+
+    .wrapper span:before {
+        top: -8px;
+    }
+
+    .wrapper span:after {
+        bottom: -8px;
     }
 
     .wrapper .overlay {
@@ -298,7 +256,6 @@
         opacity: 0;
         transition: opacity 0.5s ease;
     }
-
     .blurry {
         z-index: 100;
         opacity: 1;
@@ -383,7 +340,6 @@
             transform: translateX(0);
         }
     }
-
     ::selection {
         background: #4158d0;
         color: #ffffff;
@@ -391,10 +347,10 @@
 
     .wrapper-data {
         width: 380px;
-        background: linear-gradient(135deg, rgba(165, 54, 239, 0.44), #00878c);
+        background:  linear-gradient(135deg, rgba(165, 54, 239, 0.44), #00878c);
         border-radius: 15px;
         box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
-        z-index: 99;
+        z-index: 100;
     }
 
     .wrapper-data .title {
@@ -405,8 +361,7 @@
         color: #fff;
         user-select: none;
         border-radius: 15px 15px 0 0;
-        background: linear-gradient(135deg, #a436ed, #36b7ef);
-    );
+        background:linear-gradient(135deg, #a436ed, #36b7ef); );
     }
 
     .wrapper-data form {
@@ -454,7 +409,7 @@
         top: 0%;
         font-size: 14px;
         color: rgba(30, 2, 166, 0.4);
-        background: linear-gradient(135deg, #a436ed, #36b7ef);
+        background:linear-gradient(135deg, #a436ed, #36b7ef);
         border-radius: 7px;
         transform: translateY(-50%);
     }
@@ -471,7 +426,6 @@
         user-select: none;
         padding-left: 5px;
     }
-
     form .field input[type="submit"] {
         color: #4907bb;
         border: none;
@@ -481,11 +435,10 @@
         font-weight: 500;
         cursor: pointer;
         background-image: linear-gradient(to right, #6ee547, #4158d0);
-        background-size: 200% auto;
+        background-size:200% auto;
         transition: all 0.5s ease;
     }
-
-    form .field input[type =  "submit"]:hover {
+    form .field input[type =  "submit"]:hover{
         background-position: right center;
         color: #6ee547;
     }
@@ -500,26 +453,9 @@
         color: rgba(172, 208, 65, 0.76);
         text-decoration: none;
     }
-
     form .pass-link a:hover,
     form .signup-link a:hover {
         text-decoration: underline;
-    }
-    .error-container {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        backdrop-filter: blur(3px);
-        justify-content: center;
-        align-items: center;
-    }
-    .error-message {
-        background-color: rgb(114, 3, 3);
-        padding: 20px;
-        border-radius: 5px;
     }
 
 </style>

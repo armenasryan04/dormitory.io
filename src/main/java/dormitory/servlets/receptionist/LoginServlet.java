@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-      if((Receptionist)req.getSession().getAttribute("receptionist") != null){
+      if(req.getSession().getAttribute("receptionist") != null){
           HttpSession session = req.getSession();
           Receptionist receptionist = (Receptionist) session.getAttribute("receptionist");
           switch (receptionist.getReceptionistRole()) {
@@ -61,7 +61,8 @@ public class LoginServlet extends HttpServlet {
                       break;
               }
           } else {
-              resp.sendRedirect("login.jsp");
+              req.setAttribute("errMsg","Email or Pass not variable");
+              req.getRequestDispatcher("login.jsp").forward(req,resp);
           }
 
       }

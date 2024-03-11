@@ -72,6 +72,22 @@ public class StudentManager {
         }
         return student;
     }
+    public Student getByEmailOrId(String email ,int id) {
+        Student student = new Student();
+        String sql = "SELECT * FROM student WHERE id = ? or email = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.setString(2,email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                student = getFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return student;
+    }
+
 
     public Student addToDB(Student student) {
         String sql = "insert  into student(name,surname,email,phone_num,date,room_id,id) values (?,?,?,?,?,?,?)";
@@ -85,6 +101,7 @@ public class StudentManager {
             preparedStatement.setInt(7,student.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
         return student;
     }
@@ -110,6 +127,7 @@ public class StudentManager {
                 .surname(resultSet.getString("surname"))
                 .phoneNum(resultSet.getString("phone_num"))
                 .date(resultSet.getDate("date"))
+                .email(resultSet.getString("email"))
                 .dormitory(dormitory)
                 .studentStatus(StudentStatus.valueOf(resultSet.getString("status")))
                 .build();

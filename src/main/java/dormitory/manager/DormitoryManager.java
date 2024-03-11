@@ -23,6 +23,24 @@ public class DormitoryManager {
         }
         return dormitories;
     }
+    public List<Dormitory> getOnlyFreeRoomsByFloorOrRoom(int floor,int roomNum) {
+        List<Dormitory> freeDormitories = new ArrayList<>();
+        String sql = "select * from dormitory where floor = ? or room_num = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1,floor);
+            statement.setInt(2,roomNum);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Dormitory dormitory = getFromResultSet(resultSet);
+                if (isFree(dormitory.getId())) {
+                    freeDormitories.add(dormitory);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return freeDormitories;
+    }
     public List<Dormitory> getOnlyFreeRooms() {
         List<Dormitory> freeDormitories = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
@@ -69,11 +87,10 @@ public class DormitoryManager {
     }
 
     private Dormitory getFromResultSet(ResultSet resultSet) throws SQLException {
-        ReceptionistManager receptionistManager = new ReceptionistManager();
         Dormitory dormitory = Dormitory.builder()
                 .id(resultSet.getInt("room_id"))
                 .floor(resultSet.getInt("floor"))
-                .responsible(receptionistManager.getById(resultSet.getInt("responsible_id"))).build();
+                .roomNum(resultSet.getInt("room_num")).build();
         return dormitory;
     }
 }

@@ -27,6 +27,7 @@ public class ControlServlet extends HttpServlet {
                 all = studentManager.getByNameOrSurname(search);
             }
         }else {
+            req.setAttribute("inArchive","in");
            all = studentManager.getAllArchive();
         }
 

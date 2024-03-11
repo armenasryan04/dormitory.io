@@ -25,8 +25,7 @@
         <div class="search-box">
             <div class="input-search-background">
                 <div class="btn-search">
-                    <input type="text" name="search" class="input-search animate" placeholder="🔍 search..."
-                           id="searchInput" value="${not empty param.search ? param.search : ''}">
+                    <input type="text" name="search" class="input-search animate" placeholder="🔍 search..."  id="searchInput" value="${not empty param.search ? param.search : ''}">
                 </div>
             </div>
         </div>

@@ -13,8 +13,8 @@ public class ReceptionistManager {
     public void changeNameSurnameById(int id, String name, String surname) {
         String sql = "update receptionist set name = ? , surname = ? where id = " + id;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1,name);
-            preparedStatement.setString(2,surname);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, surname);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -30,7 +30,8 @@ public class ReceptionistManager {
             e.printStackTrace();
         }
     }
-    public void changePasswordById(int id,String password){
+
+    public void changePasswordById(int id, String password) {
         String sql = "update receptionist set password = ? where id = " + id;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, password);
@@ -41,21 +42,24 @@ public class ReceptionistManager {
     }
 
     public Receptionist addToDb(Receptionist receptionist) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO receptionist(name,surname,email,password,role) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, receptionist.getName());
-            statement.setString(2, receptionist.getSurname());
-            statement.setString(3, receptionist.getEmail());
-            statement.setString(4, receptionist.getPassword());
-            statement.setString(5,receptionist.getReceptionistRole().name());
-            statement.executeUpdate();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                receptionist.setId(resultSet.getInt(1));
+        if (getByEmail(receptionist.getEmail()).equals(null)) {
+            try (PreparedStatement statement = connection.prepareStatement("INSERT INTO receptionist(name,surname,email,password,role) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                statement.setString(1, receptionist.getName());
+                statement.setString(2, receptionist.getSurname());
+                statement.setString(3, receptionist.getEmail());
+                statement.setString(4, receptionist.getPassword());
+                statement.setString(5, receptionist.getReceptionistRole().name());
+                statement.executeUpdate();
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    receptionist.setId(resultSet.getInt(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return receptionist;
         }
-        return receptionist;
+        return null;
     }
 
     public Receptionist getById(int id) {
@@ -78,6 +82,21 @@ public class ReceptionistManager {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                receptionist = getFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return receptionist;
+    }
+
+    private Receptionist getByEmail(String email) {
+        Receptionist receptionist = new Receptionist();
+        String sql = "SELECT * from receptionist WHERE email = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 receptionist = getFromResultSet(resultSet);
