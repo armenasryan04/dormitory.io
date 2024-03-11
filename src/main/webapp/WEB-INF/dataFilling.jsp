@@ -517,9 +517,12 @@
         align-items: center;
     }
     .error-message {
+        color: white;
+        height: auto;
+        width: auto;
         background-color: rgb(114, 3, 3);
         padding: 20px;
-        border-radius: 5px;
+        border-radius: 7px;
     }
 
 </style>

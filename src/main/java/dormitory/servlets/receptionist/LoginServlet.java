@@ -40,8 +40,8 @@ public class LoginServlet extends HttpServlet {
                   break;
           }
       }else {
-          String email = req.getParameter("email");
-          String pass = req.getParameter("password");
+          String email = req.getParameter("email").trim();
+          String pass = req.getParameter("password").trim();
           Receptionist receptionist = receptionistManager.getByEmailAndPassword(email, pass);
           if (receptionist.getId() != 0) {
               HttpSession session = req.getSession();
@@ -67,5 +67,4 @@ public class LoginServlet extends HttpServlet {
 
       }
       }
-
 }

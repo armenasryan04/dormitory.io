@@ -26,7 +26,7 @@ public class StudentsListServlet extends HttpServlet {
         if (search == null){
             all = studentManager.getAllActive();
         }else{
-            all = studentManager.getByNameOrSurname(search);
+            all = studentManager.getByNameOrSurnameActive(search);
         }
         req.setAttribute("students",all);
         req.getRequestDispatcher("WEB-INF/studentsList.jsp").forward(req,resp);

@@ -1,4 +1,8 @@
-package dormitory.models;
+package dormitory.validation;
+
+import dormitory.manager.DormitoryManager;
+import dormitory.manager.StudentManager;
+import dormitory.models.Student;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -7,7 +11,40 @@ import java.util.regex.Pattern;
 
 public class StudentValidation {
     public static String validation(Student student) {
+        DormitoryManager dormitoryManager = new DormitoryManager();
+        StudentManager studentManager = new StudentManager();
         String validation = null;
+
+        if (!isEmailAddressValid(student.getEmail()) || student.getEmail().isEmpty() || student.getEmail() == null) {
+            validation = "Incorrect Email try again!";
+            return validation;
+        }
+        if (!isValidId(student.getId())) {
+            validation = "Incorrect Inspection Booklet Num try again!";
+            return validation;
+        }
+        if (studentManager.getByEmailOrId(student.getEmail(), student.getId()).getId() != 0) {
+            student = studentManager.getByEmailOrId(student.getEmail(), student.getId());
+            switch (student.getStudentStatus()) {
+                case BAN:
+                    validation = "We already have this student! \n he (she) is in Ban!";
+                    return validation;
+                case ARCHIVE:
+                    validation = "We already have this student! \n " +
+                            "he (she) is in Archive! \n " +
+                            "but you can change status on Active";
+                    return validation;
+                case ACTIVE:
+                    validation = "We already have this student!";
+                    return validation;
+                default:
+                    return null;
+            }
+        }
+        if (!dormitoryManager.isFree(student.getDormitory().getId())){
+            validation = "We already have student in this room!";
+            return validation;
+        }
         if (!isNameValid(student.getName())) {
             validation = "Incorrect Name try again!";
             return validation;
@@ -16,17 +53,18 @@ public class StudentValidation {
             validation = "Incorrect Surname try again!";
             return validation;
         }
-        if (!isEmailAddressValid(student.getEmail()) || student.getEmail().isEmpty() || student.getEmail() == null) {
-            validation = "Incorrect Email try again!";
-            return validation;
-        }
+
         if (validatePhoneNumber(student.getPhoneNum()) || student.getPhoneNum() == null || student.getPhoneNum().isEmpty()) {
             validation = "Incorrect Phone try again!";
             return validation;
         }
+
         return validation;
     }
 
+    private static boolean isValidId(int id) {
+        return String.valueOf(id).length() >= 3 && String.valueOf(id).length() <= 4;
+    }
 
 
     private static boolean validatePhoneNumber(String phoneNumber) {

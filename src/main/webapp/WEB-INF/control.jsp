@@ -19,10 +19,12 @@
     <form id="searchForm" action="/control" method="get">
         <div class="search-box">
             <div class="input-search-background">
+                <input type="hidden" name="status" value="<%=request.getAttribute("inArchive")%>">
                 <div class="btn-search">
                     <input type="text" name="search" class="input-search animate" placeholder="🔍 search..."
                            id="searchInput" value="${not empty param.search ? param.search : ''}">
                 </div>
+
             </div>
         </div>
     </form>

@@ -1,6 +1,5 @@
 package dormitory.servlets.receptionist;
 
-
 import dormitory.manager.StudentManager;
 import dormitory.models.Student;
 
@@ -15,25 +14,29 @@ import java.util.List;
 @WebServlet("/control")
 public class ControlServlet extends HttpServlet {
     StudentManager studentManager = new StudentManager();
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String search = req.getParameter("search");
         String archive = req.getParameter("status");
         List<Student> all;
-        if (archive == null ){
-            if (search == null){
+        if (archive == null || archive.equals("null")) {
+            if (search == null) {
                 all = studentManager.getAllActive();
-            }else{
-                all = studentManager.getByNameOrSurname(search);
+            } else {
+                all = studentManager.getByNameOrSurnameActive(search);
             }
-        }else {
-            req.setAttribute("inArchive","in");
-           all = studentManager.getAllArchive();
+        } else {
+            req.setAttribute("inArchive", "archive");
+            all = studentManager.getAllArchive();
+            if (search !=null){
+                all = studentManager.getByNameOrSurnameArchive(search);
+            }
         }
 
-        req.setAttribute("students",all);
-        req.getRequestDispatcher("WEB-INF/control.jsp").forward(req,resp);
+        req.setAttribute("students", all);
+        req.getRequestDispatcher("WEB-INF/control.jsp").forward(req, resp);
 
     }
 
-    }
+}

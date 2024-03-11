@@ -41,14 +41,15 @@ public class StudentManager {
         }
         return students;
     }
-    public List<Student> getByNameOrSurname(String search){
+    public List<Student> getByNameOrSurnameActive(String search){
         List<Student> students = new ArrayList<>();
-        String sql = "SELECT * FROM student WHERE UPPER(name) LIKE CONCAT('%', UPPER(?), '%') OR UPPER(surname) LIKE CONCAT('%', UPPER(?), '%')\n";
+        String sql = "SELECT * FROM student WHERE UPPER(name) LIKE CONCAT('%', UPPER(?), '%') OR UPPER(surname) LIKE CONCAT('%', UPPER(?), '%')";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, "%" + search + "%");
             statement.setString(2, "%" + search + "%");
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            while (resultSet.next() ) {
+                if (getFromResultSet(resultSet).getStudentStatus().equals(StudentStatus.ACTIVE))
                 students.add(getFromResultSet(resultSet));
             }
         } catch (SQLException e) {
@@ -56,7 +57,22 @@ public class StudentManager {
         }
         return students;
     }
-
+    public List<Student> getByNameOrSurnameArchive(String search){
+        List<Student> students = new ArrayList<>();
+        String sql = "SELECT * FROM student WHERE  (UPPER(name) LIKE CONCAT('%', UPPER(?), '%') OR UPPER(surname) LIKE CONCAT('%', UPPER(?), '%'))";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, search);
+            statement.setString(2, search);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                if (getFromResultSet(resultSet).getStudentStatus().equals(StudentStatus.ARCHIVE))
+                    students.add(getFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
 
     public Student getById(int id) {
         Student student = new Student();
