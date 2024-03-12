@@ -33,7 +33,6 @@ public class ControlServlet extends HttpServlet {
                 all = studentManager.getByNameOrSurnameArchive(search);
             }
         }
-
         req.setAttribute("students", all);
         req.getRequestDispatcher("WEB-INF/control.jsp").forward(req, resp);
 

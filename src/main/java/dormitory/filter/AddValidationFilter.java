@@ -1,0 +1,63 @@
+package dormitory.filter;
+
+import dormitory.emailVerifycation.EmailSender;
+import dormitory.manager.DormitoryManager;
+import dormitory.models.Dormitory;
+import dormitory.models.Student;
+import dormitory.validation.StudentValidation;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Random;
+
+@WebFilter(urlPatterns = {"/emailVerify"})
+public class AddValidationFilter implements Filter {
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) servletRequest;
+        HttpServletResponse resp = (HttpServletResponse) servletResponse;
+        DormitoryManager dormitoryManager = new DormitoryManager();
+        String id = req.getParameter("roomId");
+        Dormitory room = dormitoryManager.getById(Integer.parseInt(id));
+        String date = req.getParameter("date");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date utilDate;
+        java.sql.Date sqlDate = null;
+        try {
+            utilDate = dateFormat.parse(date);
+            sqlDate = new java.sql.Date(utilDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Random random = new Random();
+        int randomNumber = random.nextInt(900000) + 100000;
+
+        Student student = Student.builder()
+                .name(req.getParameter("name").trim())
+                .surname(req.getParameter("surname").trim())
+                .id(Integer.parseInt(req.getParameter("id").trim()))
+                .phoneNum(req.getParameter("phone").trim())
+                .email(req.getParameter("email").trim())
+                .date(sqlDate)
+                .dormitory(room)
+                .verifyCode(String.valueOf(randomNumber)).
+                build();
+        EmailSender emailSender = new EmailSender();
+        if (StudentValidation.validation(student) == null && emailSender.sendMail(student.getEmail(), randomNumber)) {
+            req.setAttribute("student", student);
+            filterChain.doFilter(req, resp);
+        } else {
+            req.setAttribute("errMsg", StudentValidation.validation(student));
+            req.setAttribute("room", student.getDormitory());
+            req.getRequestDispatcher("WEB-INF/dataFilling.jsp").forward(req, resp);
+        }
+    }
+}
+
+
+

@@ -19,6 +19,7 @@
     <form id="searchForm" action="/freeRooms" method="post">
         <div class="search-box">
             <div class="input-search-background">
+                <input type="hidden" name="id" value="<%=request.getAttribute("id")%>">
                 <div class="btn-search">
                     <input type="text" name="search" class="input-search animate" placeholder="🔍 search..."
                            id="searchInput" value="${not empty param.search ? param.search : ''}">
@@ -34,7 +35,11 @@
         <tr>
             <th>FLOOR</th>
             <th>ROOM NUM</th>
+            <%if (request.getAttribute("id") == null) {%>
             <th>ADD</th>
+            <%} else {%>
+            <th>CHOOSE</th>
+            <%}%>
         </tr>
         </thead>
         <tbody>
@@ -45,9 +50,17 @@
             </td>
             <td><%= room.getRoomNum()%>
             </td>
-            <td style="padding-left: 2px "><a href="/studentDataFilling?roomId=<%=room.getId()%>" method="p"
+            <%if (request.getAttribute("id") == null) {%>
+            <td style="padding-left: 2px "><a href="/studentDataFilling?roomId=<%=room.getId()%>"
                                               class="gradient-button">ADD</a>
             </td>
+            <%} else {%>
+            <td style="padding-left: 2px "><a
+                    href="/studentDateChange?roomId=<%=room.getId()%>&id=<%=request.getAttribute("id")%>"
+                    class="gradient-button">CHOOSE</a>
+            </td>
+            <%}%>
+
         </tr>
         <% } %>
         <% } %>
@@ -514,6 +527,7 @@
                         document.getElementById('searchInput').disabled = false;
                     }
                 }
+
                 document.body.addEventListener('click', handleButtonClick);
 
             } else {

@@ -1,8 +1,5 @@
 package dormitory.servlets.student;
 
-import dormitory.manager.StudentManager;
-import dormitory.models.Student;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,14 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/addStudent")
-public class AddServlet extends HttpServlet {
-    StudentManager studentManager = new StudentManager();
-
+@WebServlet("/emailReVerify")
+public class EmailVerifyForActivateServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Student student = (Student) req.getAttribute("student");
-        studentManager.addToDB(student);
-        resp.sendRedirect("/control");
+        req.getRequestDispatcher("WEB-INF/reVerifyEmail.jsp").forward(req, resp);
     }
+
+
 }

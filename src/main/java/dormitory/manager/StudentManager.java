@@ -28,6 +28,7 @@ public class StudentManager {
         }
         return students;
     }
+
     public List<Student> getAllArchive() {
         List<Student> students = new ArrayList<>();
         try {
@@ -41,32 +42,36 @@ public class StudentManager {
         }
         return students;
     }
-    public List<Student> getByNameOrSurnameActive(String search){
+
+    public List<Student> getByNameOrSurnameActive(String search) {
         List<Student> students = new ArrayList<>();
-        String sql = "SELECT * FROM student WHERE UPPER(name) LIKE CONCAT('%', UPPER(?), '%') OR UPPER(surname) LIKE CONCAT('%', UPPER(?), '%')";
+        String sql = "SELECT * FROM student WHERE   UPPER(name) LIKE CONCAT('%', UPPER(?), '%') OR UPPER(surname) LIKE CONCAT('%', UPPER(?), '%')";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, "%" + search + "%");
             statement.setString(2, "%" + search + "%");
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next() ) {
-                if (getFromResultSet(resultSet).getStudentStatus().equals(StudentStatus.ACTIVE))
-                students.add(getFromResultSet(resultSet));
+            while (resultSet.next()) {
+                if (getFromResultSet(resultSet).getStudentStatus().equals(StudentStatus.ACTIVE)) {
+                    students.add(getFromResultSet(resultSet));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return students;
     }
-    public List<Student> getByNameOrSurnameArchive(String search){
+
+    public List<Student> getByNameOrSurnameArchive(String search) {
         List<Student> students = new ArrayList<>();
-        String sql = "SELECT * FROM student WHERE  (UPPER(name) LIKE CONCAT('%', UPPER(?), '%') OR UPPER(surname) LIKE CONCAT('%', UPPER(?), '%'))";
+        String sql = "select * from (SELECT * FROM student WHERE  (UPPER(name) LIKE CONCAT('%', UPPER(?), '%') OR UPPER(surname) LIKE CONCAT('%', UPPER(?), '%')))";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, search);
             statement.setString(2, search);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                if (getFromResultSet(resultSet).getStudentStatus().equals(StudentStatus.ARCHIVE))
+                if (getFromResultSet(resultSet).getStudentStatus().equals(StudentStatus.ARCHIVE)) {
                     students.add(getFromResultSet(resultSet));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,12 +93,13 @@ public class StudentManager {
         }
         return student;
     }
-    public Student getByEmailOrId(String email ,int id) {
+
+    public Student getByEmailOrId(String email, int id) {
         Student student = new Student();
         String sql = "SELECT * FROM student WHERE id = ? or email = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
-            statement.setString(2,email);
+            statement.setString(2, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 student = getFromResultSet(resultSet);
@@ -114,13 +120,26 @@ public class StudentManager {
             preparedStatement.setString(4, student.getPhoneNum());
             preparedStatement.setDate(5, (Date) student.getDate());
             preparedStatement.setInt(6, student.getDormitory().getId());
-            preparedStatement.setInt(7,student.getId());
+            preparedStatement.setInt(7, student.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return student;
     }
+
+    public void statusToActive(int id, int roomId, Date date) {
+        String updateSql = "UPDATE student SET status = 'ACTIVE' , room_id = ? , date = ? WHERE id = ?";
+        try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+            updateStatement.setInt(1, roomId);
+            updateStatement.setDate(2, date);
+            updateStatement.setInt(3, id);
+            updateStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void checkStatusToChange() {
         String updateSql = "UPDATE student SET status = 'ARCHIVE' WHERE id = ?";
         try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
@@ -135,6 +154,7 @@ public class StudentManager {
             e.printStackTrace();
         }
     }
+
     private Student getFromResultSet(ResultSet resultSet) throws SQLException {
         Dormitory dormitory = dormitoryManager.getById(resultSet.getInt("room_id"));
         Student student = Student.builder()

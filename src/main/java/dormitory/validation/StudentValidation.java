@@ -74,7 +74,7 @@ public class StudentValidation {
         return matcher.matches();
     }
 
-    private static boolean isEmailAddressValid(String email) {
+    public static boolean isEmailAddressValid(String email) {
         boolean result = true;
         try {
             InternetAddress emailAddr = new InternetAddress(email);

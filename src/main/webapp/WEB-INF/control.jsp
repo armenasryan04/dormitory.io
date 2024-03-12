@@ -63,7 +63,9 @@
             <th>END DATE</th>
             <th style="padding-left: 10px">REMAINING DAYS</th>
             <th>ROOM INFO</th>
-
+<%if (request.getAttribute("inArchive") != null){ %>
+            <th>Activate</th>
+  <%};%>
         </tr>
         </thead>
         <tbody>
@@ -95,6 +97,11 @@
             <%}%>
             <td style="padding-left: 2px "><a href="/roomsInfo?id=<%=student.getId()%>" class="gradient-button">Room</a>
             </td>
+            <%if (request.getAttribute("inArchive") != null){ %>
+            <td style="padding-left: 2px "><a href="/freeRooms?id=<%=student.getId()%>" class="gradient-button"><i style="font-size: 20px" class='bx bx-refresh' ></i></a>
+            </td>
+            <%};%>
+
         </tr>
         <% } %>
         <% } %>
