@@ -53,7 +53,7 @@
 <div class="wrapper-data">
     <div class="title">Add Student</div>
 
-    <form action="/addStudent" method="post">
+    <form action="/makeActive" method="post">
         <div class="field">
             <input type="text" required name="code">
             <label class="input-box">Check your Gmail</label>
@@ -61,11 +61,11 @@
         <input type="hidden" name="name" value="<%=student.getName()%>">
         <input type="hidden" name="surname" value="<%=student.getSurname()%>">
         <input type="hidden" name="id" value="<%=student.getId()%>">
-        <input type="hidden" name ="roomId" value="<%=student.getDormitory().getId()%>">
+        <input type="hidden" name="roomId" value="<%=student.getDormitory().getId()%>">
         <input type="hidden" name="email" value="<%=student.getEmail()%>">
         <input type="hidden" name="phoneNum" value="<%=student.getPhoneNum()%>">
-        <input type="hidden" name="date" value="<%=student.getDate()%>">
         <input type="hidden" name="checkCode" value="<%=student.getVerifyCode()%>">
+        <input type="hidden" name="date" value="<%=student.getDate()%>">
         <div class="field" >
             <br/>   <input type="submit" value="add">
         </div>

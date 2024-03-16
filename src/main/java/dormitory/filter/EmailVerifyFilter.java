@@ -1,11 +1,8 @@
 package dormitory.filter;
 
-import dormitory.emailVerifycation.EmailSender;
 import dormitory.manager.DormitoryManager;
-import dormitory.manager.StudentManager;
 import dormitory.models.Dormitory;
 import dormitory.models.Student;
-import dormitory.validation.StudentValidation;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -14,15 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Random;
 
-@WebFilter(urlPatterns = {"/addStudent"})
+@WebFilter(urlPatterns = {"/addStudent","/makeActive"})
 public class EmailVerifyFilter implements Filter {
     DormitoryManager dormitoryManager = new DormitoryManager();
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
+        req.setCharacterEncoding("UTF-8");
         String id = req.getParameter("roomId");
         Dormitory room = dormitoryManager.getById(Integer.parseInt(id));
         String date = req.getParameter("date");

@@ -19,12 +19,15 @@ public class ControlServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String search = req.getParameter("search");
         String archive = req.getParameter("status");
+        studentManager.checkStatusToChange();
         List<Student> all;
+        int numberOfStudents = studentManager.getStudentsCount();
         if (archive == null || archive.equals("null")) {
             if (search == null) {
                 all = studentManager.getAllActive();
             } else {
                 all = studentManager.getByNameOrSurnameActive(search);
+
             }
         } else {
             req.setAttribute("inArchive", "archive");
@@ -33,6 +36,7 @@ public class ControlServlet extends HttpServlet {
                 all = studentManager.getByNameOrSurnameArchive(search);
             }
         }
+        req.setAttribute("numberOfStudents", numberOfStudents);
         req.setAttribute("students", all);
         req.getRequestDispatcher("WEB-INF/control.jsp").forward(req, resp);
 

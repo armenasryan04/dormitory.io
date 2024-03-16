@@ -1,8 +1,6 @@
 package dormitory.servlets.student;
 
-import dormitory.manager.DormitoryManager;
 import dormitory.manager.StudentManager;
-import dormitory.models.Dormitory;
 import dormitory.models.Student;
 
 import javax.servlet.ServletException;
@@ -19,9 +17,10 @@ public class makeActiveServlet extends HttpServlet {
     StudentManager studentManager = new StudentManager();
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        int roomId = Integer.parseInt(req.getParameter("roomId"));
-        String date = req.getParameter("date");
+        Student student = (Student) req.getAttribute("student");
+        int id = student.getId();
+        int roomId = student.getDormitory().getId();
+        String date = String.valueOf(student.getDate());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date utilDate;
         java.sql.Date sqlDate = null;

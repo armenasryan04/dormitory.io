@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ page import="dormitory.models.Dormitory" %>
 <html>
 <head>
@@ -73,48 +73,6 @@
         </div>
         <% } %>
     </div>
-            <script>
-                $(document).ready(function () {
-                    $('.menu').click(function () {
-                        $('.overlay').toggleClass('anim');
-                        $(this).toggleClass('open');
-                        $('.blurry-background').toggleClass('blurry');
-                    });
-                    $(document).click(function (event) {
-                        if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
-                            $('.overlay').removeClass('anim');
-                            $('.menu').removeClass('open');
-                            $('.blurry-background').removeClass('blurry');
-                        }
-                    });
-                });
-                function handleButtonClick() {
-                    var errorContainer = document.getElementById('errorContainer');
-                    var errorMessage = document.getElementById('errorMessage');
-                    if (errorContainer && errorContainer.contains(event.target) && !errorMessage.contains(event.target) ) {
-                        errorContainer.style.display = 'none';
-                        errorMessage.style.display = 'none'
-
-                    }
-                };
-                function handleEnterKeyPress() {
-                    if (event.key === 'Enter' || event.keyCode === 32 ) {
-
-                        var errorContainer = document.getElementById('errorContainer');
-                        var errorMessage = document.getElementById('errorMessage');
-                        errorContainer.style.display = 'none';
-                        errorMessage.style.display = 'none'
-                    }
-                }
-                <% if (request.getAttribute("errMsg") != null) { %>
-                document.getElementById('errorMessage').style.display = 'flex';
-                document.getElementById('errorContainer').style.display = 'flex';
-                <% } %>
-
-
-                document.body.addEventListener('keypress',handleEnterKeyPress)
-                document.body.addEventListener('click', handleButtonClick);
-            </script>
 
 </body>
 <style type="text/css">
@@ -525,5 +483,48 @@
         border-radius: 7px;
     }
 
-</style>
+</style>   <script>
+    $(document).ready(function () {
+        $('.menu').click(function () {
+            $('.overlay').toggleClass('anim');
+            $(this).toggleClass('open');
+            $('.blurry-background').toggleClass('blurry');
+        });
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
+                $('.overlay').removeClass('anim');
+                $('.menu').removeClass('open');
+                $('.blurry-background').removeClass('blurry');
+            }
+        });
+    });
+    function handleButtonClick() {
+        var errorContainer = document.getElementById('errorContainer');
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorContainer && errorContainer.contains(event.target) && !errorMessage.contains(event.target) ) {
+            errorContainer.style.display = 'none';
+            errorMessage.style.display = 'none'
+            window.history.back();
+        }
+    };
+    function handleEnterKeyPress() {
+        if (event.key === 'Enter' || event.keyCode === 32 ) {
+
+            var errorContainer = document.getElementById('errorContainer');
+            var errorMessage = document.getElementById('errorMessage');
+            errorContainer.style.display = 'none';
+            errorMessage.style.display = 'none'
+            window.history.back();
+        }
+    }
+    <% if (request.getAttribute("errMsg") != null) { %>
+    document.getElementById('errorMessage').style.display = 'flex';
+    document.getElementById('errorContainer').style.display = 'flex';
+    <% } %>
+
+
+    document.body.addEventListener('keypress',handleEnterKeyPress)
+    document.body.addEventListener('click', handleButtonClick);
+</script>
+
 </html>

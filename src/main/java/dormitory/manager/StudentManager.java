@@ -109,6 +109,19 @@ public class StudentManager {
         }
         return student;
     }
+    public int getStudentsCount() {
+        int count = 0;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM student");
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 
 
     public Student addToDB(Student student) {

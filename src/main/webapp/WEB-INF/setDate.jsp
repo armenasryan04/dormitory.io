@@ -38,13 +38,17 @@
 <%Student student = (Student) request.getAttribute("student");%>
 <div class="wrapper-data">
     <div class="title">SET DATE</div>
-    <form action="/makeActive" method="post">
+    <form action="/emailReVerify" method="post">
         <div class="field">
             <input type="date" name="date">
             <label>Choose Date</label>
         </div>
+        <input type="hidden" name="name" value="<%=student.getName()%>">
+        <input type="hidden" name="surname" value="<%=student.getSurname()%>">
         <input type="hidden" name="id" value="<%=student.getId()%>">
         <input type="hidden" name="roomId" value="<%=student.getDormitory().getId()%>">
+        <input type="hidden" name="email" value="<%=student.getEmail()%>">
+        <input type="hidden" name="phoneNum" value="<%=student.getPhoneNum()%>">
         <div class="field">
             <br/> <input type="submit" value="add">
         </div>

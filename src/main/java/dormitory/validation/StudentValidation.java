@@ -58,6 +58,9 @@ public class StudentValidation {
             validation = "Incorrect Phone try again!";
             return validation;
         }
+        if (isEmailAddressValid("")){
+
+        }
 
         return validation;
     }

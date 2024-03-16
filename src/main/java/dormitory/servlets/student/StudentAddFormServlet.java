@@ -18,6 +18,7 @@ public class StudentAddFormServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("roomId"));
         Dormitory dormitory = dormitoryManager.getById(id);
         req.setAttribute("room",dormitory);
+        req.setCharacterEncoding("UTF-8");
         req.getRequestDispatcher("WEB-INF/dataFilling.jsp").forward(req,resp);
     }
 }

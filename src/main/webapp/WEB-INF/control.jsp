@@ -13,100 +13,89 @@
 <div class="wave"></div>
 <div class="wave"></div>
 <div class="wave"></div>
+<div class="forming">
+    <div class="title">STUDENTS LIST <p style="font-size: 15px; font-weight: 0">Total cont
+        = <%=request.getAttribute("numberOfStudents")%>
+    </p></div>
+    <div class="container">
 
-<div class="container">
-    <h1>Welcome to our Dormitory </h1>
-    <form id="searchForm" action="/control" method="get">
-        <div class="search-box">
-            <div class="input-search-background">
-                <input type="hidden" name="status" value="<%=request.getAttribute("inArchive")%>">
-                <div class="btn-search">
-                    <input type="text" name="search" class="input-search animate" placeholder="🔍 search..."
-                           id="searchInput" value="${not empty param.search ? param.search : ''}">
+        <form id="searchForm" action="/control" method="get">
+            <div class="search-box">
+                <div class="input-search-background">
+                    <input type="hidden" name="status" value="<%=request.getAttribute("inArchive")%>">
+                    <div class="btn-search">
+                        <input type="text" name="search" class="input-search animate" placeholder="🔍 search..."
+                               id="searchInput" value="${not empty param.search ? param.search : ''}">
+                    </div>
+
                 </div>
-
             </div>
-        </div>
-    </form>
-    <script>
-        document.getElementById('searchInput').addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                document.getElementById('searchForm').submit();
-            }
-        });
-        $(document).ready(function () {
-            $('.menu').click(function () {
-                $('.overlay').toggleClass('anim');
-                $(this).toggleClass('open');
-                $('.blurry-background').toggleClass('blurry');
-            });
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
-                    $('.overlay').removeClass('anim');
-                    $('.menu').removeClass('open');
-                    $('.blurry-background').removeClass('blurry');
-                }
-            });
-        });
-    </script>
+        </form>
+        <br/>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Inspection </br>Booklet Num</th>
+                <th>NAME</th>
+                <th>SURNAME</th>
+                <th>PHONE</th>
+                <th>E-Mail</th>
+                <th>END DATE</th>
+                <th style="padding-left: 10px">REMAINING DAYS</th>
+                <th>ROOM INFO</th>
+                <%if (request.getAttribute("inArchive") != null) { %>
+                <th>Activate</th>
+                <%
+                    }
+                    ;
+                %>
+            </tr>
+            </thead>
+            <tbody>
+            <% if (students != null && !students.isEmpty()) { %>
+            <% for (Student student : students) { %>
+            <tr>
+                <td>
+                    <%=student.getId()%>
+                </td>
+                <td><%= student.getName() %>
+                </td>
+                <td><%= student.getSurname() %>
+                </td>
+                <td><%=student.getPhoneNum()%>
+                </td>
+                <td>
+                    <%=student.getEmail()%>
+                </td>
+                <%if (student.getDaysUntil(student.getDate()).equals(0 + "d " + 0 + "h")) {%>
+                <td style="color: #650404"><%= student.getDate() %>
+                </td>
+                <td style="padding: 5px; color: #5d0202"><%= student.getDaysUntil(student.getDate()) %>
+                        <%}else {%>
 
-    <br/>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Inspection </br>Booklet Num</th>
-            <th>NAME</th>
-            <th>SURNAME</th>
-            <th>PHONE</th>
-            <th>E-Mail</th>
-            <th>END DATE</th>
-            <th style="padding-left: 10px">REMAINING DAYS</th>
-            <th>ROOM INFO</th>
-<%if (request.getAttribute("inArchive") != null){ %>
-            <th>Activate</th>
-  <%};%>
-        </tr>
-        </thead>
-        <tbody>
-        <% if (students != null && !students.isEmpty()) { %>
-        <% for (Student student : students) { %>
-        <tr>
-            <td>
-                <%=student.getId()%>
-            </td>
-            <td><%= student.getName() %>
-            </td>
-            <td><%= student.getSurname() %>
-            </td>
-            <td><%=student.getPhoneNum()%>
-            </td>
-            <td>
-                <%=student.getEmail()%>
-            </td>
-            <%if (student.getDaysUntil(student.getDate()).equals(0 + "d " + 0 + "h")) {%>
-            <td style="color: #650404"><%= student.getDate() %>
-            </td>
-            <td style="padding: 5px; color: #5d0202"><%= student.getDaysUntil(student.getDate()) %>
-                    <%}else {%>
+                <td><%=student.getDate()%>
+                </td>
+                <td style="padding: 5px;"><%= student.getDaysUntil(student.getDate()) %>
+                </td>
+                <%}%>
+                <td style="padding-left: 2px "><a href="/roomsInfo?id=<%=student.getId()%>"
+                                                  class="gradient-button">Room</a>
+                </td>
+                <%if (request.getAttribute("inArchive") != null) { %>
+                <td style="padding-left: 2px "><a href="/freeRooms?id=<%=student.getId()%>" class="gradient-button"><i
+                        style="font-size: 20px" class='bx bx-refresh'></i></a>
+                </td>
+                <%
+                    }
+                    ;
+                %>
 
-            <td><%=student.getDate()%>
-            </td>
-            <td style="padding: 5px;"><%= student.getDaysUntil(student.getDate()) %>
-            </td>
-            <%}%>
-            <td style="padding-left: 2px "><a href="/roomsInfo?id=<%=student.getId()%>" class="gradient-button">Room</a>
-            </td>
-            <%if (request.getAttribute("inArchive") != null){ %>
-            <td style="padding-left: 2px "><a href="/freeRooms?id=<%=student.getId()%>" class="gradient-button"><i style="font-size: 20px" class='bx bx-refresh' ></i></a>
-            </td>
-            <%};%>
-
-        </tr>
-        <% } %>
-        <% } %>
-        </tbody>
-    </table>
+            </tr>
+            <% } %>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
 </div>
 <div class="wrapper">
 
@@ -115,15 +104,14 @@
     <div class="overlay">
         <a style="position: absolute;top:5px " class="gradient-button" href="/logout"><i class='bx bx-log-out'></i></a>
         <ul>
+            <%if (request.getAttribute("inArchive") == null) { %>
             <li><a href="/freeRooms">ADD STUDENT</a></li>
             <li><a href="/refactorMenu">REFACTOR MENU</a></li>
-            <%if (request.getAttribute("inArchive") == null) { %>
             <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
             <%} else {%>
-            <li><a href="/control">Back</a></li>
-            <%
-                };
-            %>
+            <li><a id="backLink">Back</a></li>
+            <li><a href="/freeRooms">ADD STUDENT</a></li>
+            <%};%>
         </ul>
     </div>
     <div class="blurry-background"></div>
@@ -135,14 +123,36 @@
     .container {
         max-width: 1150px;
         width: 100%;
-        max-height: 90%;
-        background: linear-gradient(1355deg, rgba(66, 246, 231, 0.87), #69d7ff);
-        padding: 25px 30px;
-        border-radius: 5px;
+        max-height: 80%;
+        background: linear-gradient(135deg, #0cffe5, #36b7ef);
+        padding: 20px 35px;
+        border-radius: 0px 0px 20px 20px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10);
         overflow-y: auto;
         z-index: 100;
     }
+
+    .forming {
+        max-width: 1150px;
+        width: 100%;
+        background: transparent;
+        backdrop-filter: blur(10);
+        z-index: 100;
+    }
+
+    .forming .title {
+        font-size: 35px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 30px;
+        padding-top: 20px;
+        color: #ffffff;
+        user-select: none;
+        border-radius: 15px 15px 0 0;
+        background: linear-gradient(135deg, #36b7ef, #a436ed);
+    }
+
 
     .container::-webkit-scrollbar {
         width: 10px;
@@ -150,7 +160,7 @@
     }
 
     .container::-webkit-scrollbar-track {
-        background: linear-gradient(1355deg, #428af6, #fdd100);
+        background: linear-gradient(135deg, #a436ed, #36b7ef);
         border-radius: 5px;
     }
 
@@ -288,8 +298,6 @@
         background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
         background-size: 200% auto;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
-
-        transition: text-shadow 0.5s ease;
         transition: .5s;
     }
 
@@ -353,25 +361,23 @@
     }
 
 
-    .btn-search i {
-        margin-top: 5px;
-    }
-
     .input-search-background:focus-within {
+        border-radius: 10px;
         width: 300px;
     }
 
     .btn-search:focus + .input-search,
     .input-search:focus {
         width: 300px;
-        border-radius: 40px;
+        border-radius: 10px;
         background-color: transparent;
-        border-bottom: 2px solid rgb(255, 149, 59);
+        caret-color: #2c0248;
+        border-bottom: 2px solid rgb(59, 75, 255);
         animation: textColorChange 0.5s ease-in-out forwards;
     }
 
     .input-search:hover {
-        caret-color: #f1c700;
+        caret-color: #85f100;
         width: 300px;
     }
 
@@ -390,6 +396,7 @@
         position: absolute;
         overflow: hidden;
     }
+
     .wrapper i {
         font-size: 25px;
     }
@@ -419,6 +426,7 @@
         color: rgb(0, 0, 0);
         box-shadow: 0 0 10px #f519f5;
     }
+
     .wrapper .overlay {
         position: absolute;
         bottom: -100%;
@@ -527,4 +535,33 @@
         }
     }
 </style>
+<script>
+    document.getElementById('searchInput').addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById('searchForm').submit();
+        }
+    });
+    $(document).ready(function () {
+        $('.menu').click(function () {
+            $('.overlay').toggleClass('anim');
+            $(this).toggleClass('open');
+            $('.blurry-background').toggleClass('blurry');
+        });
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
+                $('.overlay').removeClass('anim');
+                $('.menu').removeClass('open');
+                $('.blurry-background').removeClass('blurry');
+            }
+        });
+    });
+
+    var backLink = document.getElementById("backLink");
+    backLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.history.back();
+    });
+
+</script>
 </html>

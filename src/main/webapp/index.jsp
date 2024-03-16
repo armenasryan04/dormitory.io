@@ -25,6 +25,7 @@ response.sendRedirect("/login");
 <style>
     .container {
         width: 50%;
+        max-height: 30%;
         background-color: #5ca2d3;
         padding: 25px 30px;
         border-radius: 5px;
@@ -126,6 +127,7 @@ response.sendRedirect("/login");
         background-position: right center;
         box-shadow: 0 0 5px #2f5b24, 0 0 3px #90ce45, 0 0 6px #f1c700, 0 0 9px #8cd089,
         0 0 12px #71e3ee, 0 0 16px #e0ea7f, 0 0 21px #4ede97, 0 0 30px #5f83c4;
+        font-size: 20px;
     }
 </style>
 </body>

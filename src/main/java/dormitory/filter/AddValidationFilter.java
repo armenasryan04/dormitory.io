@@ -18,10 +18,11 @@ import java.util.Random;
 @WebFilter(urlPatterns = {"/emailVerify"})
 public class AddValidationFilter implements Filter {
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException, NullPointerException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         DormitoryManager dormitoryManager = new DormitoryManager();
+        req.setCharacterEncoding("UTF-8");
         String id = req.getParameter("roomId");
         Dormitory room = dormitoryManager.getById(Integer.parseInt(id));
         String date = req.getParameter("date");
@@ -36,7 +37,6 @@ public class AddValidationFilter implements Filter {
         }
         Random random = new Random();
         int randomNumber = random.nextInt(900000) + 100000;
-
         Student student = Student.builder()
                 .name(req.getParameter("name").trim())
                 .surname(req.getParameter("surname").trim())
@@ -45,8 +45,8 @@ public class AddValidationFilter implements Filter {
                 .email(req.getParameter("email").trim())
                 .date(sqlDate)
                 .dormitory(room)
-                .verifyCode(String.valueOf(randomNumber)).
-                build();
+                .verifyCode(String.valueOf(randomNumber))
+                .build();
         EmailSender emailSender = new EmailSender();
         if (StudentValidation.validation(student) == null && emailSender.sendMail(student.getEmail(), randomNumber)) {
             req.setAttribute("student", student);
