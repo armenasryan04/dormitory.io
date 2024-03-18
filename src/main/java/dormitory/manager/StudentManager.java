@@ -3,6 +3,7 @@ package dormitory.manager;
 
 import dormitory.db.DBConnectionProvider;
 import dormitory.models.Dormitory;
+import dormitory.models.Receptionist;
 import dormitory.models.Student;
 import dormitory.models.StudentStatus;
 
@@ -122,10 +123,37 @@ public class StudentManager {
         }
         return count;
     }
+    public int getActiveStudentsNumber() {
+        int count = 0;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM student where status = 'ACTIVE'");
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public int getArchiveStudentsNumber() {
+        int count = 0;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM student where status = 'ARCHIVE'");
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 
 
     public Student addToDB(Student student) {
-        String sql = "insert  into student(name,surname,email,phone_num,date,room_id,id) values (?,?,?,?,?,?,?)";
+        String sql = "insert  into student(name,surname,email,phone_num,date,room_id,receptionist_id,id) values (?,?,?,?,?,?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, student.getName());
             preparedStatement.setString(2, student.getSurname());
@@ -133,7 +161,8 @@ public class StudentManager {
             preparedStatement.setString(4, student.getPhoneNum());
             preparedStatement.setDate(5, (Date) student.getDate());
             preparedStatement.setInt(6, student.getDormitory().getId());
-            preparedStatement.setInt(7, student.getId());
+            preparedStatement.setInt(7,student.getReceptionist().getId());
+            preparedStatement.setInt(8, student.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -141,12 +170,13 @@ public class StudentManager {
         return student;
     }
 
-    public void statusToActive(int id, int roomId, Date date) {
-        String updateSql = "UPDATE student SET status = 'ACTIVE' , room_id = ? , date = ? WHERE id = ?";
+    public void statusToActive(int id, int roomId, Date date, Receptionist receptionist) {
+        String updateSql = "UPDATE student SET status = 'ACTIVE' , room_id = ? , date = ? , recaptionist_id = ?  WHERE id = ?";
         try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
             updateStatement.setInt(1, roomId);
             updateStatement.setDate(2, date);
-            updateStatement.setInt(3, id);
+            updateStatement.setInt(3, receptionist.getId());
+            updateStatement.setInt(4,id);
             updateStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

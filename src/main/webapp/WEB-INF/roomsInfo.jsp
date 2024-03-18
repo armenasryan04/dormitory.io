@@ -19,10 +19,9 @@ String isFree = (String) request.getAttribute("timer");%>
 <div class="wave"></div>
 <div class="wave"></div>
 <div class="wave"></div>
-
+<a href="#" class="gradient-button" id="backLink">BACK</a>
 <div class="container">
     <h1>About Room</h1>
-
     <br/>
     <table class="table">
         <thead>
@@ -173,28 +172,36 @@ String isFree = (String) request.getAttribute("timer");%>
             background-position: 0% 0%;
         }
     }
-
     .gradient-button {
+        position: absolute;
+        top: 10px;
+        left: 20px;
         text-decoration: none;
+        color: #4907bb;
         display: inline-block;
         padding: 10px 20px;
         margin: 5px 15px;
         border-radius: 10px;
-        font-family: 'Montserrat', sans-serif;
         text-transform: uppercase;
         letter-spacing: 2px;
-        background-image: linear-gradient(to right, #fdd100 0%, #f09630 51%, #f1c700 100%);
+        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
         background-size: 200% auto;
-        box-shadow: 0 0 20px rgba(0, 0, 0, .1);
-
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
         transition: text-shadow 0.5s ease;
         transition: .5s;
     }
 
     .gradient-button:hover {
         background-position: right center;
-        color: #000;
-        text-shadow: 0 0 10px #f519f5;
+        color: rgb(0, 0, 0);
+        box-shadow: 0 0 10px #f519f5;
     }
 </style>
+<script>
+    var backLink = document.getElementById("backLink");
+    backLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.history.back();
+    });
+</script>
 </html>

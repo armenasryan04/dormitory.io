@@ -21,7 +21,7 @@ public class ControlServlet extends HttpServlet {
         String archive = req.getParameter("status");
         studentManager.checkStatusToChange();
         List<Student> all;
-        int numberOfStudents = studentManager.getStudentsCount();
+        int numberOfStudents;
         if (archive == null || archive.equals("null")) {
             if (search == null) {
                 all = studentManager.getAllActive();
@@ -29,12 +29,14 @@ public class ControlServlet extends HttpServlet {
                 all = studentManager.getByNameOrSurnameActive(search);
 
             }
+            numberOfStudents = studentManager.getActiveStudentsNumber();
         } else {
             req.setAttribute("inArchive", "archive");
             all = studentManager.getAllArchive();
             if (search !=null){
                 all = studentManager.getByNameOrSurnameArchive(search);
             }
+            numberOfStudents = studentManager.getArchiveStudentsNumber();
         }
         req.setAttribute("numberOfStudents", numberOfStudents);
         req.setAttribute("students", all);

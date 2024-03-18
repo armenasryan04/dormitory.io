@@ -1,6 +1,7 @@
 package dormitory.servlets.student;
 
 import dormitory.manager.StudentManager;
+import dormitory.models.Receptionist;
 import dormitory.models.Student;
 
 import javax.servlet.ServletException;
@@ -20,6 +21,7 @@ public class makeActiveServlet extends HttpServlet {
         Student student = (Student) req.getAttribute("student");
         int id = student.getId();
         int roomId = student.getDormitory().getId();
+        Receptionist receptionist = (Receptionist) req.getSession().getAttribute("receptionist");
         String date = String.valueOf(student.getDate());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date utilDate;
@@ -30,7 +32,7 @@ public class makeActiveServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        studentManager.statusToActive(id, roomId, sqlDate);
+        studentManager.statusToActive(id, roomId, sqlDate,receptionist);
         resp.sendRedirect("/control");
     }
 }

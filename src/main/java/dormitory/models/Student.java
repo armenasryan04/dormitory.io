@@ -23,6 +23,7 @@ public class Student {
     private String phoneNum;
     private Date date;
     private Dormitory dormitory;
+    private Receptionist receptionist;
     private StudentStatus studentStatus;
     private String verifyCode;
 

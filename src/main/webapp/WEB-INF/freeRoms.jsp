@@ -21,7 +21,7 @@
             <div class="input-search-background">
                 <input type="hidden" name="id" value="<%=request.getAttribute("id")%>">
                 <div class="btn-search">
-                    <input type="text" name="search" class="input-search animate" placeholder="🔍 search..."
+                    <input type="text" name="search" class="input-search animate" placeholder="🔍 floor-room..."
                            id="searchInput" value="${not empty param.search ? param.search : ''}">
                 </div>
             </div>
@@ -69,21 +69,18 @@
 </div>
 <div class="wrapper">
     <span class="menu"><i style="font-size:44px; " class='bx bx-menu'></i></span>
-
-
     <div class="overlay">
         <a style="position: absolute;top:5px " class="gradient-button" href="/logout"><i class='bx bx-log-out'></i></a>
         <ul>
-            <li><a href="/control">BACK</a></li>
-            <li><a href="#">REFACTOR MENU</a></li>
-            <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
+            <li><a href="/control"><i class='bx bxs-home'></i></a></li>
+            <li><a href="#" id = 'backLink'>BACK</a></li>
         </ul>
     </div>
     <div class="blurry-background"></div>
 </div>
 <div id="errorContainer" class="error-container">
     <div id="errorMessage" class="error-message">
-        <p>Incorrect Search <br/>Floor - Room Num</p>
+        <p>Incorrect Search <br/>Floor-Room Num</p>
     </div>
 </div>
 </body>
@@ -330,11 +327,6 @@
         font-weight: 100;
     }
 
-
-    .btn-search i {
-        margin-top: 5px;
-    }
-
     .input-search-background:focus-within {
         width: 300px;
     }
@@ -446,10 +438,15 @@
         margin-left: -10px;
         font-size: 1em;
         font-weight: 800;
+
     }
 
     .wrapper .overlay ul li {
         margin: 10px 0;
+        transition: all 0.5s ease;
+    }
+    .wrapper .overlay ul li:hover{
+        text-shadow:#f519f5 1px 0 10px;
     }
 
     .wrapper .overlay ul li a {
@@ -548,6 +545,11 @@
                 $('.blurry-background').removeClass('blurry');
             }
         });
+    });
+    var backLink = document.getElementById("backLink");
+    backLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.history.back();
     });
 </script>
 </html>

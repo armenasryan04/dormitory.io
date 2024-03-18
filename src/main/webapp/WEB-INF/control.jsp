@@ -1,21 +1,23 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="dormitory.models.Student" %>
+<%@ page import="dormitory.models.Receptionist" %>
 <html>
 <head>
     <title>List of Rooms</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <% List<Student> students = (List<Student>) request.getAttribute("students"); %>
+<%Receptionist receptionist = (Receptionist) session.getAttribute("receptionist");%>
 <body>
 
 <div class="wave"></div>
 <div class="wave"></div>
 <div class="wave"></div>
 <div class="forming">
-    <div class="title">STUDENTS LIST <p style="font-size: 15px; font-weight: 0">Total cont
-        = <%=request.getAttribute("numberOfStudents")%>
+    <div class="title">STUDENTS LIST <p style="font-size: 15px; font-weight: 0">STUDENT'S TOTAL
+        NUMBER <%=request.getAttribute("numberOfStudents")%>
     </p></div>
     <div class="container">
 
@@ -35,7 +37,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Inspection </br>Booklet Num</th>
+                <th>Inspection Booklet Number</th>
                 <th>NAME</th>
                 <th>SURNAME</th>
                 <th>PHONE</th>
@@ -81,14 +83,11 @@
                 <td style="padding-left: 2px "><a href="/roomsInfo?id=<%=student.getId()%>"
                                                   class="gradient-button">Room</a>
                 </td>
-                <%if (request.getAttribute("inArchive") != null) { %>
+                <%if (request.getAttribute("inArchive") != null) {%>
                 <td style="padding-left: 2px "><a href="/freeRooms?id=<%=student.getId()%>" class="gradient-button"><i
                         style="font-size: 20px" class='bx bx-refresh'></i></a>
                 </td>
-                <%
-                    }
-                    ;
-                %>
+                <%};%>
 
             </tr>
             <% } %>
@@ -105,8 +104,9 @@
         <a style="position: absolute;top:5px " class="gradient-button" href="/logout"><i class='bx bx-log-out'></i></a>
         <ul>
             <%if (request.getAttribute("inArchive") == null) { %>
-            <li><a href="/freeRooms">ADD STUDENT</a></li>
-            <li><a href="/refactorMenu">REFACTOR MENU</a></li>
+
+            <li><a href="/refactorMenu" class="icon" ><i class='bx bxs-user-circle'><%=receptionist.getName()%></i></a></li>
+            <li><a href="/freeRooms" >ADD STUDENT</a></li>
             <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
             <%} else {%>
             <li><a id="backLink">Back</a></li>
@@ -116,8 +116,6 @@
     </div>
     <div class="blurry-background"></div>
 </div>
-
-
 </body>
 <style type="text/css">
     .container {
@@ -478,8 +476,11 @@
 
     .wrapper .overlay ul li {
         margin: 10px 0;
+        transition: all 1s;
     }
-
+.wrapper .overlay ul li:hover{
+    text-shadow:#f519f5 1px 0 10px;
+}
     .wrapper .overlay ul li a {
         text-decoration: none;
         color: #000000;
@@ -534,6 +535,33 @@
             transform: translateX(0);
         }
     }
+    .icon{
+        width: 45px;
+        background:transparent;
+        text-shadow: 0 0 20px rgba(0, 0, 0, 0); ;
+        overflow-x: hidden;
+        z-index: 100;
+        white-space: nowrap;
+        transition: all 2.5s ease;
+    }
+
+    .icon i{
+        font-size: 50px;
+        color: rgba(0, 0, 0, 0.99);
+        text-shadow: 0 0 20px rgba(0, 0, 0, 0);
+        transition: all 0.5s ease;
+    }
+
+    .icon:hover{
+        width: 370px;
+    }
+
+    .icon i:hover{
+        color: #000000;
+        text-shadow: #f519f5 1px 0 20px;
+    }
+
+
 </style>
 <script>
     document.getElementById('searchInput').addEventListener('keypress', function (event) {

@@ -59,36 +59,7 @@
 </div>
 </div>
 </body>
-<script>
-    function handleButtonClick() {
-        var errorContainer = document.getElementById('errorContainer');
-        var errorMessage = document.getElementById('errorMessage');
-        if (errorContainer && errorContainer.contains(event.target) && !errorMessage.contains(event.target) ) {
-            errorContainer.style.display = 'none';
-            errorMessage.style.display = 'none'
 
-        }
-    };
-    function handleEnterKeyPress() {
-        if (event.key === 'Enter' || event.keyCode === 32 ) {
-
-            var errorContainer = document.getElementById('errorContainer');
-            var errorMessage = document.getElementById('errorMessage');
-                errorContainer.style.display = 'none';
-                errorMessage.style.display = 'none'
-        }
-    }
-    <% if (request.getAttribute("errMsg") != null) { %>
-    document.getElementById('errorMessage').style.display = 'flex';
-    document.getElementById('errorContainer').style.display = 'flex';
-
-    <% } %>
-
-
-    document.body.addEventListener('keypress',handleEnterKeyPress)
-    document.body.addEventListener('click', handleButtonClick);
-
-</script>
 <style>
     @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
@@ -329,3 +300,33 @@
     }
 
 </style>
+<script>
+    function handleButtonClick() {
+        var errorContainer = document.getElementById('errorContainer');
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorContainer && errorContainer.contains(event.target) && !errorMessage.contains(event.target) ) {
+            errorContainer.style.display = 'none';
+            errorMessage.style.display = 'none'
+
+        }
+    };
+    function handleEnterKeyPress() {
+        if (event.key === 'Enter' || event.keyCode === 32 ) {
+
+            var errorContainer = document.getElementById('errorContainer');
+            var errorMessage = document.getElementById('errorMessage');
+            errorContainer.style.display = 'none';
+            errorMessage.style.display = 'none'
+        }
+    }
+    <% if (request.getAttribute("errMsg") != null) { %>
+    document.getElementById('errorMessage').style.display = 'flex';
+    document.getElementById('errorContainer').style.display = 'flex';
+
+    <% } %>
+
+
+    document.body.addEventListener('keypress',handleEnterKeyPress)
+    document.body.addEventListener('click', handleButtonClick);
+
+</script>
