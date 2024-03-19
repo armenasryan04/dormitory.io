@@ -28,32 +28,34 @@ public class AddValidationFilter implements Filter {
         String date = req.getParameter("date");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date utilDate;
-        java.sql.Date sqlDate = null;
+        java.sql.Date sqlDate;
         try {
             utilDate = dateFormat.parse(date);
             sqlDate = new java.sql.Date(utilDate.getTime());
+            Random random = new Random();
+            int randomNumber = random.nextInt(900000) + 100000;
+            Student student = Student.builder()
+                    .name(req.getParameter("name").trim())
+                    .surname(req.getParameter("surname").trim())
+                    .id(Integer.parseInt(req.getParameter("id").trim()))
+                    .phoneNum(req.getParameter("phone").trim())
+                    .email(req.getParameter("email").trim())
+                    .date(sqlDate)
+                    .dormitory(room)
+                    .verifyCode(String.valueOf(randomNumber))
+                    .build();
+            EmailSender emailSender = new EmailSender();
+            if (StudentValidation.validation(student) == null && emailSender.sendMail(student.getEmail(), randomNumber)) {
+                req.setAttribute("student", student);
+                filterChain.doFilter(req, resp);
+            } else {
+                req.setAttribute("errMsg", StudentValidation.validation(student));
+                req.setAttribute("room", student.getDormitory());
+                req.getRequestDispatcher("WEB-INF/dataFilling.jsp").forward(req, resp);
+            }
         } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Random random = new Random();
-        int randomNumber = random.nextInt(900000) + 100000;
-        Student student = Student.builder()
-                .name(req.getParameter("name").trim())
-                .surname(req.getParameter("surname").trim())
-                .id(Integer.parseInt(req.getParameter("id").trim()))
-                .phoneNum(req.getParameter("phone").trim())
-                .email(req.getParameter("email").trim())
-                .date(sqlDate)
-                .dormitory(room)
-                .verifyCode(String.valueOf(randomNumber))
-                .build();
-        EmailSender emailSender = new EmailSender();
-        if (StudentValidation.validation(student) == null && emailSender.sendMail(student.getEmail(), randomNumber)) {
-            req.setAttribute("student", student);
-            filterChain.doFilter(req, resp);
-        } else {
-            req.setAttribute("errMsg", StudentValidation.validation(student));
-            req.setAttribute("room", student.getDormitory());
+            req.setAttribute("errMsg", "invalid date");
+            req.setAttribute("room",room);
             req.getRequestDispatcher("WEB-INF/dataFilling.jsp").forward(req, resp);
         }
     }

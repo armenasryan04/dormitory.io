@@ -40,7 +40,7 @@
     <div class="title">SET DATE</div>
     <form action="/emailReVerify" method="post">
         <div class="field">
-            <input type="date" name="date">
+            <input type="date" id="min" name="date">
             <label>Choose Date</label>
         </div>
         <input type="hidden" name="name" value="<%=student.getName()%>">
@@ -101,10 +101,14 @@
         document.getElementById('errorMessage').style.display = 'flex';
         document.getElementById('errorContainer').style.display = 'flex';
         <% } %>
-
-
         document.body.addEventListener('keypress', handleEnterKeyPress)
         document.body.addEventListener('click', handleButtonClick);
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var tomorrowString = tomorrow.toISOString().slice(0, 10);
+        var inputElement = document.getElementById("min");
+        inputElement.min = tomorrowString;
+
     </script>
 
 </body>

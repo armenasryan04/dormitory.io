@@ -6,6 +6,7 @@ import dormitory.models.Student;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,10 +59,9 @@ public class StudentValidation {
             validation = "Incorrect Phone try again!";
             return validation;
         }
-        if (isEmailAddressValid("")){
-
+        if (!dateValid(student.getDate())){
+            validation = "incorrect Date try again!";
         }
-
         return validation;
     }
 
@@ -140,5 +140,11 @@ public class StudentValidation {
             }
         }
         return true;
+    }
+    private static boolean dateValid(Date date){
+        Date today = new Date();
+        long tomorrowMillis = today.getTime() + (24 * 60 * 60 * 1000);
+        Date tomorrow = new Date(tomorrowMillis);
+        return !date.before(tomorrow);
     }
 }

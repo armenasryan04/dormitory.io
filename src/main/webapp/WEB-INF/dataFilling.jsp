@@ -20,9 +20,8 @@
     <div class="overlay">
         <a style="position: absolute;top:5px " class="gradient-button" href="/logout"><i class='bx bx-log-out'></i></a>
         <ul>
-            <li><a href="/freeRooms">BACK</a></li>
-            <li><a href="#">REFACTOR MENU</a></li>
-            <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
+            <li><a href="/control"><i class='bx bxs-home'></i></a></li>
+            <li><a href="#" id = 'backLink'>BACK</a></li>
         </ul>
     </div>
     <div class="blurry-background"></div>
@@ -56,7 +55,7 @@
         </div>
 
         <div class="field">
-            <input type="date" name="date">
+            <input type= "date" id="min" name="date">
             <label>Choose Date</label>
         </div>
 
@@ -286,6 +285,9 @@
     .wrapper .overlay ul li {
         margin: 10px 0;
     }
+    .wrapper .overlay ul li:hover{
+        text-shadow:#f519f5 1px 0 10px;
+    }
 
     .wrapper .overlay ul li a {
         text-decoration: none;
@@ -498,6 +500,8 @@
             }
         });
     });
+
+
     function handleButtonClick() {
         var errorContainer = document.getElementById('errorContainer');
         var errorMessage = document.getElementById('errorMessage');
@@ -521,10 +525,20 @@
     document.getElementById('errorMessage').style.display = 'flex';
     document.getElementById('errorContainer').style.display = 'flex';
     <% } %>
-
+    var backLink = document.getElementById("backLink");
+    backLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.history.back();
+    });
 
     document.body.addEventListener('keypress',handleEnterKeyPress)
     document.body.addEventListener('click', handleButtonClick);
+
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var tomorrowString = tomorrow.toISOString().slice(0, 10);
+    var inputElement = document.getElementById("min");
+    inputElement.min = tomorrowString;
 </script>
 
 </html>

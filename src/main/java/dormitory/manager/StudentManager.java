@@ -171,7 +171,7 @@ public class StudentManager {
     }
 
     public void statusToActive(int id, int roomId, Date date, Receptionist receptionist) {
-        String updateSql = "UPDATE student SET status = 'ACTIVE' , room_id = ? , date = ? , recaptionist_id = ?  WHERE id = ?";
+        String updateSql = "UPDATE student SET status = 'ACTIVE' , room_id = ? , date = ? , receptionist_id = ?  WHERE id = ?";
         try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
             updateStatement.setInt(1, roomId);
             updateStatement.setDate(2, date);
