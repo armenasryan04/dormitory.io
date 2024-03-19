@@ -1,13 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="dormitory.models.Dormitory" %>
+<%@ page import="dormitory.models.Room" %>
+<%@ page import="dormitory.models.Room" %>
 <html>
 <head>
     <title>List of Rooms</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-<% List<Dormitory> rooms = (List<Dormitory>) request.getAttribute("room"); %>
+<% List<Room> rooms = (List<Room>) request.getAttribute("room"); %>
 <body>
 
 <div class="wave"></div>
@@ -44,7 +45,7 @@
         </thead>
         <tbody>
         <% if (rooms != null && !rooms.isEmpty()) { %>
-        <% for (Dormitory room : rooms) { %>
+        <% for (Room room : rooms) { %>
         <tr>
             <td><%= room.getFloor() %>
             </td>

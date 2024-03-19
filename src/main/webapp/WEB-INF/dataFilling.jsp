@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
-<%@ page import="dormitory.models.Dormitory" %>
+<%@ page import="dormitory.models.Room" %>
+<%@ page import="dormitory.models.Room" %>
 <html>
 <head>
     <title>List of Rooms</title>
@@ -28,10 +29,10 @@
 </div>
 
 <div class="wrapper-data">
-        <%Dormitory dormitory = (Dormitory) request.getAttribute("room");%>
+        <%Room room = (Room) request.getAttribute("room");%>
     <div class="title">Add Student</div>
 
-    <form action="/emailVerify?roomId=<%=dormitory.getId()%>" method="post">
+    <form action="/emailVerify?roomId=<%=room.getId()%>" method="post">
         <div class="field">
             <input type="text" required name="name">
             <label class="input-box">Name</label>

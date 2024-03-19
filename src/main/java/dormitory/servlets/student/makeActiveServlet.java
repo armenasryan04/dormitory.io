@@ -20,7 +20,7 @@ public class makeActiveServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Student student = (Student) req.getAttribute("student");
         int id = student.getId();
-        int roomId = student.getDormitory().getId();
+        int roomId = student.getRoom().getId();
         Receptionist receptionist = (Receptionist) req.getSession().getAttribute("receptionist");
         String date = String.valueOf(student.getDate());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

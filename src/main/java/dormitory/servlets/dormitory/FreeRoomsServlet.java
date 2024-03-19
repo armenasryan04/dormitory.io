@@ -1,7 +1,7 @@
 package dormitory.servlets.dormitory;
 
-import dormitory.manager.DormitoryManager;
-import dormitory.models.Dormitory;
+import dormitory.manager.RoomManager;
+import dormitory.models.Room;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,27 +13,27 @@ import java.util.List;
 
 @WebServlet("/freeRooms")
 public class FreeRoomsServlet extends HttpServlet {
-    DormitoryManager dormitoryManager = new DormitoryManager();
+    RoomManager roomManager = new RoomManager();
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String search = req.getParameter("search");
         String id = req.getParameter("id");
-        List<Dormitory> all;
+        List<Room> all;
         if (id == null || id.equals("null")){
             if (search != null && search != "") {
                 String[] room = search.split("-");
-                all = dormitoryManager.getOnlyFreeRoomsByFloorOrRoom(Integer.parseInt(room[0]), Integer.parseInt(room[1]));
+                all = roomManager.getOnlyFreeRoomsByFloorOrRoom(Integer.parseInt(room[0]), Integer.parseInt(room[1]));
             }else {
-                all = dormitoryManager.getOnlyFreeRooms();
+                all = roomManager.getOnlyFreeRooms();
 
             }
         }else {
             req.setAttribute("id",id);
-            all = dormitoryManager.getOnlyFreeRooms();
+            all = roomManager.getOnlyFreeRooms();
             if (search != null && search != "") {
                 String[] room = search.split("-");
-                all = dormitoryManager.getOnlyFreeRoomsByFloorOrRoom(Integer.parseInt(room[0]), Integer.parseInt(room[1]));
+                all = roomManager.getOnlyFreeRoomsByFloorOrRoom(Integer.parseInt(room[0]), Integer.parseInt(room[1]));
             }
         }
         req.setAttribute("room", all);

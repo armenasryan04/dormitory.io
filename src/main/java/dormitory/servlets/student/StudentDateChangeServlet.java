@@ -1,9 +1,8 @@
 package dormitory.servlets.student;
 
-import dormitory.emailVerifycation.EmailSender;
-import dormitory.manager.DormitoryManager;
+import dormitory.manager.RoomManager;
 import dormitory.manager.StudentManager;
-import dormitory.models.Dormitory;
+import dormitory.models.Room;
 import dormitory.models.Student;
 
 import javax.servlet.ServletException;
@@ -16,13 +15,13 @@ import java.io.IOException;
 @WebServlet("/studentDateChange")
 public class StudentDateChangeServlet extends HttpServlet {
     StudentManager studentManager = new StudentManager();
-    DormitoryManager dormitoryManager = new DormitoryManager();
+    RoomManager roomManager = new RoomManager();
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException,RuntimeException {
         Student student = studentManager.getById(Integer.parseInt(req.getParameter("id")));
-        Dormitory dormitory = dormitoryManager.getById(Integer.parseInt(req.getParameter("roomId")));
-        student.setDormitory(dormitory);
+        Room room = roomManager.getById(Integer.parseInt(req.getParameter("roomId")));
+        student.setRoom(room);
         req.setAttribute("student", student);
         req.getRequestDispatcher("WEB-INF/setDate.jsp").forward(req, resp);
 

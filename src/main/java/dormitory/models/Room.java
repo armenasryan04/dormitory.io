@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Dormitory {
+public class Room {
     private int id;
     private int floor;
     private int roomNum;

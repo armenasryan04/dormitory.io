@@ -1,7 +1,7 @@
 package dormitory.filter;
 
-import dormitory.manager.DormitoryManager;
-import dormitory.models.Dormitory;
+import dormitory.manager.RoomManager;
+import dormitory.models.Room;
 import dormitory.models.Student;
 
 import javax.servlet.*;
@@ -14,14 +14,14 @@ import java.text.SimpleDateFormat;
 
 @WebFilter(urlPatterns = {"/addStudent","/makeActive"})
 public class EmailVerifyFilter implements Filter {
-    DormitoryManager dormitoryManager = new DormitoryManager();
+    RoomManager roomManager = new RoomManager();
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         req.setCharacterEncoding("UTF-8");
         String id = req.getParameter("roomId");
-        Dormitory room = dormitoryManager.getById(Integer.parseInt(id));
+        Room room = roomManager.getById(Integer.parseInt(id));
         String date = req.getParameter("date");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date utilDate;
@@ -41,7 +41,7 @@ public class EmailVerifyFilter implements Filter {
                 .email(req.getParameter("email").trim())
                 .verifyCode(req.getParameter("checkCode").trim())
                 .date(sqlDate)
-                .dormitory(room)
+                .room(room)
                 .build();
         if (student.getVerifyCode().equals(req.getParameter("code").trim())) {
            req.setAttribute("student",student);

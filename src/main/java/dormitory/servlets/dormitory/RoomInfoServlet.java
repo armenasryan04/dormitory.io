@@ -1,7 +1,7 @@
 package dormitory.servlets.dormitory;
 
 import dormitory.manager.StudentManager;
-import dormitory.models.Dormitory;
+import dormitory.models.Room;
 import dormitory.models.Student;
 
 import javax.servlet.ServletException;
@@ -19,12 +19,12 @@ public class RoomInfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         Student student = studentManager.getById(id);
-        Dormitory dormitory = student.getDormitory();
+        Room room = student.getRoom();
         Date releaseDay = student.getDate();
         String timer = student.getDaysUntil(releaseDay);
         req.setAttribute("timer",timer);
         req.setAttribute("date",releaseDay);
-        req.setAttribute("dormitory",dormitory);
+        req.setAttribute("dormitory", room);
         req.getRequestDispatcher("WEB-INF/roomsInfo.jsp").forward(req,resp);
 
     }

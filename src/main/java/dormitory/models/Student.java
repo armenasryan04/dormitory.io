@@ -5,11 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Data
 @Builder
@@ -22,7 +18,7 @@ public class Student {
     private String email;
     private String phoneNum;
     private Date date;
-    private Dormitory dormitory;
+    private Room room;
     private Receptionist receptionist;
     private StudentStatus studentStatus;
     private String verifyCode;

@@ -1,5 +1,6 @@
-<%@ page import="dormitory.models.Dormitory" %>
-<%@ page import="java.util.Date" %><%--
+
+<%@ page import="java.util.Date" %>
+<%@ page import="dormitory.models.Room" %><%--
   Created by IntelliJ IDEA.
   User: User
   Date: 24.02.2024
@@ -11,7 +12,7 @@
 <head>
     <title>Room Info</title>
 </head>
-<% Dormitory dormitory = (Dormitory) request.getAttribute("dormitory"); %>
+<% Room room = (Room) request.getAttribute("room"); %>
 <%Date releaseDate = (Date) request.getAttribute("date");
 String isFree = (String) request.getAttribute("timer");%>
 <body>
@@ -32,11 +33,11 @@ String isFree = (String) request.getAttribute("timer");%>
         </tr>
         </thead>
         <tbody>
-        <% if (dormitory != null && releaseDate != null){%>
+        <% if (room != null && releaseDate != null){%>
         <tr>
-            <td><%= dormitory.getFloor() %>
+            <td><%= room.getFloor() %>
             </td>
-            <td><%= dormitory.getRoomNum() %>
+            <td><%= room.getRoomNum() %>
             </td>
             <% if (isFree == 0 + "d " + 0 + "h" ){%>
             <td style="color: #830505"><%= releaseDate %>

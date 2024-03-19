@@ -2,7 +2,7 @@ package dormitory.manager;
 
 
 import dormitory.db.DBConnectionProvider;
-import dormitory.models.Dormitory;
+import dormitory.models.Room;
 import dormitory.models.Receptionist;
 import dormitory.models.Student;
 import dormitory.models.StudentStatus;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class StudentManager {
     private Connection connection = DBConnectionProvider.getInstance().getConnection();
-    DormitoryManager dormitoryManager = new DormitoryManager();
+    RoomManager roomManager = new RoomManager();
 
     public List<Student> getAllActive() {
 
@@ -160,7 +160,7 @@ public class StudentManager {
             preparedStatement.setString(3, student.getEmail());
             preparedStatement.setString(4, student.getPhoneNum());
             preparedStatement.setDate(5, (Date) student.getDate());
-            preparedStatement.setInt(6, student.getDormitory().getId());
+            preparedStatement.setInt(6, student.getRoom().getId());
             preparedStatement.setInt(7,student.getReceptionist().getId());
             preparedStatement.setInt(8, student.getId());
             preparedStatement.executeUpdate();
@@ -199,7 +199,7 @@ public class StudentManager {
     }
 
     private Student getFromResultSet(ResultSet resultSet) throws SQLException {
-        Dormitory dormitory = dormitoryManager.getById(resultSet.getInt("room_id"));
+        Room room = roomManager.getById(resultSet.getInt("room_id"));
         Student student = Student.builder()
                 .id(resultSet.getInt("id"))
                 .name(resultSet.getString("name"))
@@ -207,7 +207,7 @@ public class StudentManager {
                 .phoneNum(resultSet.getString("phone_num"))
                 .date(resultSet.getDate("date"))
                 .email(resultSet.getString("email"))
-                .dormitory(dormitory)
+                .room(room)
                 .studentStatus(StudentStatus.valueOf(resultSet.getString("status")))
                 .build();
         return student;

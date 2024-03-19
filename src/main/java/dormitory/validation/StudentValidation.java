@@ -1,6 +1,6 @@
 package dormitory.validation;
 
-import dormitory.manager.DormitoryManager;
+import dormitory.manager.RoomManager;
 import dormitory.manager.StudentManager;
 import dormitory.models.Student;
 
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class StudentValidation {
     public static String validation(Student student) {
-        DormitoryManager dormitoryManager = new DormitoryManager();
+        RoomManager roomManager = new RoomManager();
         StudentManager studentManager = new StudentManager();
         String validation = null;
 
@@ -42,7 +42,7 @@ public class StudentValidation {
                     return null;
             }
         }
-        if (!dormitoryManager.isFree(student.getDormitory().getId())){
+        if (!roomManager.isFree(student.getRoom().getId())){
             validation = "We already have student in this room!";
             return validation;
         }
@@ -141,7 +141,7 @@ public class StudentValidation {
         }
         return true;
     }
-    private static boolean dateValid(Date date){
+    public static boolean dateValid(Date date){
         Date today = new Date();
         long tomorrowMillis = today.getTime() + (24 * 60 * 60 * 1000);
         Date tomorrow = new Date(tomorrowMillis);

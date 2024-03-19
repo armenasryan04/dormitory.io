@@ -46,7 +46,7 @@
         <input type="hidden" name="name" value="<%=student.getName()%>">
         <input type="hidden" name="surname" value="<%=student.getSurname()%>">
         <input type="hidden" name="id" value="<%=student.getId()%>">
-        <input type="hidden" name="roomId" value="<%=student.getDormitory().getId()%>">
+        <input type="hidden" name="roomId" value="<%=student.getRoom().getId()%>">
         <input type="hidden" name="email" value="<%=student.getEmail()%>">
         <input type="hidden" name="phoneNum" value="<%=student.getPhoneNum()%>">
         <div class="field">

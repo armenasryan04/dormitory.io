@@ -1,7 +1,7 @@
 package dormitory.servlets.student;
 
-import dormitory.manager.DormitoryManager;
-import dormitory.models.Dormitory;
+import dormitory.manager.RoomManager;
+import dormitory.models.Room;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,12 +12,12 @@ import java.io.IOException;
 
 @WebServlet("/studentDataFilling")
 public class StudentAddFormServlet extends HttpServlet {
-    DormitoryManager dormitoryManager = new DormitoryManager();
+    RoomManager roomManager = new RoomManager();
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException,NullPointerException,NumberFormatException {
         int id = Integer.parseInt(req.getParameter("roomId"));
-        Dormitory dormitory = dormitoryManager.getById(id);
-        req.setAttribute("room",dormitory);
+        Room room = roomManager.getById(id);
+        req.setAttribute("room", room);
         req.setCharacterEncoding("UTF-8");
         req.getRequestDispatcher("WEB-INF/dataFilling.jsp").forward(req,resp);
     }
