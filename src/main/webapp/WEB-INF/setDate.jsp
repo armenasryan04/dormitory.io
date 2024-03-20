@@ -9,18 +9,13 @@
 <html>
 <head>
     <title>make active</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
-<body>
-
 <div class="wave"></div>
 <div class="wave"></div>
 <div class="wave"></div>
-
-
 <br/>
 <div class="wrapper">
     <span class="menu"><i style="font-size:44px; " class='bx bx-menu'></i></span>
@@ -28,9 +23,8 @@
     <div class="overlay">
         <a style="position: absolute;top:5px " class="gradient-button" href="/logout"><i class='bx bx-log-out'></i></a>
         <ul>
-            <li><a href="/freeRooms">BACK</a></li>
-            <li><a href="#">REFACTOR MENU</a></li>
-            <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
+            <li><a href="/control"><i class='bx bxs-home'></i></a></li>
+            <li><a href="#" id="backLink">BACK</a></li>
         </ul>
     </div>
     <div class="blurry-background"></div>
@@ -61,55 +55,6 @@
         </div>
         <% } %>
     </div>
-    <script>
-        $(document).ready(function () {
-            $('.menu').click(function () {
-                $('.overlay').toggleClass('anim');
-                $(this).toggleClass('open');
-                $('.blurry-background').toggleClass('blurry');
-            });
-            $(document).click(function (event) {
-                if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
-                    $('.overlay').removeClass('anim');
-                    $('.menu').removeClass('open');
-                    $('.blurry-background').removeClass('blurry');
-                }
-            });
-        });
-
-        function handleButtonClick() {
-            var errorContainer = document.getElementById('errorContainer');
-            var errorMessage = document.getElementById('errorMessage');
-            if (errorContainer && errorContainer.contains(event.target) && !errorMessage.contains(event.target)) {
-                errorContainer.style.display = 'none';
-                errorMessage.style.display = 'none'
-
-            }
-        };
-
-        function handleEnterKeyPress() {
-            if (event.key === 'Enter' || event.keyCode === 32) {
-
-                var errorContainer = document.getElementById('errorContainer');
-                var errorMessage = document.getElementById('errorMessage');
-                errorContainer.style.display = 'none';
-                errorMessage.style.display = 'none'
-            }
-        }
-
-        <% if (request.getAttribute("errMsg") != null) { %>
-        document.getElementById('errorMessage').style.display = 'flex';
-        document.getElementById('errorContainer').style.display = 'flex';
-        <% } %>
-        document.body.addEventListener('keypress', handleEnterKeyPress)
-        document.body.addEventListener('click', handleButtonClick);
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        var tomorrowString = tomorrow.toISOString().slice(0, 10);
-        var inputElement = document.getElementById("min");
-        inputElement.min = tomorrowString;
-
-    </script>
 
 </body>
 <style type="text/css">
@@ -322,6 +267,7 @@
 
     .wrapper .overlay ul li {
         margin: 10px 0;
+        transition: all 1s ease;
     }
 
     .wrapper .overlay ul li a {
@@ -331,6 +277,10 @@
         display: inline-block;
         padding: 20px 0;
         overflow: hidden;
+    }
+
+    .wrapper .overlay ul li:hover {
+        text-shadow: #f519f5 1px 0 10px;
     }
 
     .wrapper .overlay ul li a:after {
@@ -522,5 +472,63 @@
         border-radius: 7px;
     }
 </style>
-</body>
+<script>
+    $(document).ready(function () {
+        $('.menu').click(function () {
+            $('.overlay').toggleClass('anim');
+            $(this).toggleClass('open');
+            $('.blurry-background').toggleClass('blurry');
+        });
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
+                $('.overlay').removeClass('anim');
+                $('.menu').removeClass('open');
+                $('.blurry-background').removeClass('blurry');
+            }
+        });
+    });
+
+
+    function handleButtonClick() {
+        var errorContainer = document.getElementById('errorContainer');
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorContainer && errorContainer.contains(event.target) && !errorMessage.contains(event.target)) {
+            errorContainer.style.display = 'none';
+            errorMessage.style.display = 'none'
+            window.history.back();
+        }
+    };
+
+    function handleEnterKeyPress() {
+        if (event.key === 'Enter' || event.keyCode === 32) {
+
+            var errorContainer = document.getElementById('errorContainer');
+            var errorMessage = document.getElementById('errorMessage');
+            errorContainer.style.display = 'none';
+            errorMessage.style.display = 'none'
+            window.history.back();
+        }
+    }
+
+    <% if (request.getAttribute("errMsg") != null) { %>
+    document.getElementById('errorMessage').style.display = 'flex';
+    document.getElementById('errorContainer').style.display = 'flex';
+    <% } %>
+    var backLink = document.getElementById("backLink");
+    backLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.history.back();
+    });
+
+    document.body.addEventListener('keypress', handleEnterKeyPress)
+    document.body.addEventListener('click', handleButtonClick);
+
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var tomorrowString = tomorrow.toISOString().slice(0, 10);
+    var inputElement = document.getElementById("min");
+    inputElement.min = tomorrowString;
+</script>
+
+
 </html>

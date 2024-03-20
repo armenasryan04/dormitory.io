@@ -26,22 +26,19 @@ public class ControlServlet extends HttpServlet {
             if (search == null) {
                 all = studentManager.getAllActive();
             } else {
-                all = studentManager.getByNameOrSurnameActive(search);
-
+                all = studentManager.getByNameOrSurnameActive(search.trim());
             }
             numberOfStudents = studentManager.getActiveStudentsNumber();
         } else {
             req.setAttribute("inArchive", "archive");
             all = studentManager.getAllArchive();
             if (search !=null){
-                all = studentManager.getByNameOrSurnameArchive(search);
+                all = studentManager.getByNameOrSurnameArchive(search.trim());
             }
             numberOfStudents = studentManager.getArchiveStudentsNumber();
         }
         req.setAttribute("numberOfStudents", numberOfStudents);
         req.setAttribute("students", all);
         req.getRequestDispatcher("WEB-INF/control.jsp").forward(req, resp);
-
     }
-
 }

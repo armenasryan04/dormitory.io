@@ -22,6 +22,7 @@ public class Student {
     private Receptionist receptionist;
     private StudentStatus studentStatus;
     private String verifyCode;
+    private int tryQuantity;
 
     public String getDaysUntil(Date endDate) {
         long millisecondsPerDay = 1000 * 60 * 60 * 24;

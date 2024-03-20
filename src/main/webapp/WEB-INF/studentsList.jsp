@@ -14,13 +14,14 @@
 </head>
 <% List<Student> students = (List<Student>) request.getAttribute("students"); %>
 <body>
-
+<a href="#" style="position: absolute; right: 91%" class="gradient-button" id="backLink">BACK</a>
 <div class="wave"></div>
 <div class="wave"></div>
 <div class="wave"></div>
 
+<div class="forming">
+    <div class="title">STUDENTS LIST</div>
 <div class="container">
-    <h1>Welcome to our Dormitory </h1>
     <form id="searchForm" action="/studentList" method="get">
         <div class="search-box">
             <div class="input-search-background">
@@ -32,16 +33,6 @@
     </form>
 
 
-    <script>
-        document.getElementById('searchInput').addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                document.getElementById('searchForm').submit();
-            }
-        });
-
-
-    </script>
 
     <br/>
     <table class="table">
@@ -62,18 +53,12 @@
             </td>
             <td><%= student.getSurname() %>
             </td>
-            <%if (student.getDaysUntil(student.getDate()).equals(0 + "d " + 0 + "h")) {%>
-            <td style="color: brown"><%= student.getDate() %>
-            </td>
-            <td style="padding: 5px; color: brown"><%= student.getDaysUntil(student.getDate()) %>
-                    <%}else {%>
 
             <td><%=student.getDate()%>
             </td>
-            <td style="padding: 5px;"><%= student.getDaysUntil(student.getDate()) %>
+            <td ><%= student.getDaysUntil(student.getDate()) %>
             </td>
-            <%}%>
-            <td style="padding-left: 2px "><a href="/roomsInfo?id=<%=student.getId()%>" class="gradient-button">Room</a>
+            <td><a href="/roomsInfo?id=<%=student.getId()%>" class="gradient-button">Room</a>
             </td>
         </tr>
         <% } %>
@@ -81,7 +66,7 @@
         </tbody>
     </table>
 </div>
-
+</div>
 
 </body>
 <style type="text/css">
@@ -201,6 +186,146 @@
     }
 </style>
 <style>
+    .container {
+        max-width: 1200px;
+        width: auto;
+        max-height: 80%;
+        background: linear-gradient(135deg, #0cffe5, #36b7ef);
+        padding: 20px 35px;
+        border-radius: 0px 0px 20px 20px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10);
+        overflow-y: auto;
+        z-index: 100;
+    }
+
+    .forming {
+        max-width: 1200px;
+        width: auto;
+        background: transparent;
+        backdrop-filter: blur(10);
+        z-index: 100;
+    }
+
+    .forming .title {
+        height: 80px;
+        font-size: 35px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 30px;
+        padding-top: 30px;
+        color: #ffffff;
+        user-select: none;
+        border-radius: 15px 15px 0 0;
+        background: linear-gradient(135deg, #36b7ef, #a436ed);
+    }
+
+
+    .container::-webkit-scrollbar {
+        width: 10px;
+        border-radius: 5px;
+    }
+
+    .container::-webkit-scrollbar-track {
+        background: linear-gradient(135deg, #a436ed, #36b7ef);
+        border-radius: 5px;
+    }
+
+    .container::-webkit-scrollbar-thumb {
+        background: linear-gradient(1355deg, #00fde8, #428af6);
+        background-size: 12px;
+        border-radius: 5px;
+        transition: background .5s;
+    }
+
+    .container::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #00fd9c, #428af6);
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 50px;
+        border-radius: 5px;
+        border: 0px solid #ffffff;
+        border-top: 0px solid #ffffff;
+        border-bottom: 0px solid #fff;
+        border-collapse: collapse;
+        outline: 5px solid #ffd300;
+        font-size: 20px;
+        background: #ffffff !important;
+    }
+
+    .table th {
+        font-weight: bold;
+        padding: 3px 16px;
+        background: #ffd300;
+        border: 6px none;
+        text-align: left;
+        font-size: 15px;
+        border-top: 3px solid #ffd300;
+        border-bottom: 3px solid #ffd300;
+    }
+
+    .table td {
+        border: 30px;
+        font-size: 16px;
+        white-space: nowrap;
+        padding: 2px 10px;
+        background: linear-gradient(135deg, #fdd100, #428af6);
+    }
+
+    .table tbody tr:nth-child(even) {
+        background: #4c698d !important;
+    }
+
+    .wave {
+        background: rgb(255 255 255 / 25%);
+        border-radius: 1000% 1000% 0 0;
+        position: fixed;
+        width: 200%;
+        height: 12em;
+        animation: wave 10s -3s linear infinite;
+        transform: translate3d(0, 0, 0);
+        opacity: 0.8;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    .wave:nth-of-type(2) {
+        bottom: -1.25em;
+        animation: wave 18s linear reverse infinite;
+        opacity: 0.8;
+    }
+
+    .wave:nth-of-type(3) {
+        bottom: -2.5em;
+        animation: wave 20s -1s reverse infinite;
+        opacity: 0.9;
+    }
+
+    @keyframes wave {
+        2% {
+            transform: translateX(0%);
+        }
+
+        25% {
+            transform: translateX(-25%);
+        }
+
+        50% {
+            transform: translateX(-50%);
+        }
+
+        75% {
+            transform: translateX(-25%);
+        }
+
+        100% {
+            transform: translateX(0%);
+        }
+    }
+
     body {
         font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         overflow: auto;
@@ -228,27 +353,26 @@
     }
 
     .gradient-button {
+        top: 20px;
+        right: 20px;
         text-decoration: none;
         color: #4907bb;
         display: inline-block;
         padding: 10px 20px;
         margin: 5px 15px;
         border-radius: 10px;
-        font-family: 'Montserrat', sans-serif;
         text-transform: uppercase;
         letter-spacing: 2px;
-        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, #5000f1 100%);
+        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
         background-size: 200% auto;
-        box-shadow: 0 0 20px rgba(0, 0, 0, .1);
-
-        transition: text-shadow 0.5s ease;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
         transition: .5s;
     }
 
     .gradient-button:hover {
         background-position: right center;
-        color: #000;
-        text-shadow: 0 0 10px #f519f5;
+        color: rgb(0, 0, 0);
+        box-shadow: 0 0 10px #f519f5;
     }
 
     * {
@@ -305,31 +429,42 @@
     }
 
 
-    .btn-search i {
-        margin-top: 5px;
-    }
-
     .input-search-background:focus-within {
+        border-radius: 10px;
         width: 300px;
     }
 
     .btn-search:focus + .input-search,
     .input-search:focus {
         width: 300px;
-        border-radius: 40px;
+        border-radius: 10px;
         background-color: transparent;
-        border-bottom: 2px solid rgb(255, 149, 59);
+        caret-color: #2c0248;
+        border-bottom: 2px solid rgb(59, 75, 255);
         animation: textColorChange 0.5s ease-in-out forwards;
     }
 
     .input-search:hover {
-        caret-color: #f1c700;
+        caret-color: #85f100;
         width: 300px;
     }
 
     .input-search-background:hover {
         width: 300px;
     }
-
 </style>
+<script>
+    document.getElementById('searchInput').addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById('searchForm').submit();
+        }
+    });
+
+    var backLink = document.getElementById("backLink");
+    backLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.history.back();
+    });
+</script>
 </html>

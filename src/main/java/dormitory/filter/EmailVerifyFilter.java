@@ -47,7 +47,9 @@ public class EmailVerifyFilter implements Filter {
            req.setAttribute("student",student);
            filterChain.doFilter(req,resp);
         }else {
-            resp.sendRedirect("/");
+            req.setAttribute("errMsg","not variable code try again!");
+            req.setAttribute("room",room);
+            req.getRequestDispatcher("WEB-INF/dataFilling.jsp").forward(req, resp);
         }
     }
 }

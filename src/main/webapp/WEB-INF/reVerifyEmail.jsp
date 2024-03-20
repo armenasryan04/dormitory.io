@@ -11,6 +11,7 @@
 <head>
     <title>List of Rooms</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
@@ -18,33 +19,16 @@
 <div class="wave"></div>
 <div class="wave"></div>
 
-<script>
-    $(document).ready(function () {
-        $('.menu').click(function () {
-            $('.overlay').toggleClass('anim');
-            $(this).toggleClass('open');
-            $('.blurry-background').toggleClass('blurry');
-        });
-        $(document).click(function (event) {
-            if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
-                $('.overlay').removeClass('anim');
-                $('.menu').removeClass('open');
-                $('.blurry-background').removeClass('blurry');
-            }
-        });
-    });
-</script>
+
 
 <br/>
 <div class="wrapper">
-    <span class="menu"></span>
-
+    <span class="menu"><i style="font-size:44px; " class='bx bx-menu'></i></span>
     <div class="overlay">
-        <a style="position: absolute;top:5px " class="gradient-button" href="/logout" >lOG OUT</a>
+        <a style="position: absolute;top:5px " class="gradient-button" href="/logout" ><i class='bx bx-log-out'></i></a>
         <ul>
-            <li><a href="#">REFACTOR MENU</a></li>
-            <li><a href="/freeRooms">ADD STUDENT</a></li>
-            <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
+            <li><a href="/control"><i class='bx bxs-home'></i></a></li>
+            <li><a href="#" id="backLink">Back</a></li>
         </ul>
     </div>
     <div class="blurry-background"></div>
@@ -52,7 +36,7 @@
 <%Student student = (Student) request.getAttribute("student");%>
 <div class="wrapper-data">
     <div class="title">Add Student</div>
-
+    <div class="content"></div>
     <form action="/makeActive" method="post">
         <div class="field">
             <input type="text" required name="code">
@@ -61,19 +45,31 @@
         <input type="hidden" name="name" value="<%=student.getName()%>">
         <input type="hidden" name="surname" value="<%=student.getSurname()%>">
         <input type="hidden" name="id" value="<%=student.getId()%>">
-        <input type="hidden" name="roomId" value="<%=student.getRoom().getId()%>">
+        <input type="hidden" name ="roomId" value="<%=student.getRoom().getId()%>">
         <input type="hidden" name="email" value="<%=student.getEmail()%>">
         <input type="hidden" name="phoneNum" value="<%=student.getPhoneNum()%>">
-        <input type="hidden" name="checkCode" value="<%=student.getVerifyCode()%>">
         <input type="hidden" name="date" value="<%=student.getDate()%>">
+        <input type="hidden" name="checkCode" value="<%=student.getVerifyCode()%>">
         <div class="field" >
-            <br/>   <input type="submit" value="add">
+            <br/>
+            <input type="submit" value="add">
+        </div>
+        <div class="content">
+            <div class="pass-link">
+                <a href="#" id="newCode">need a new code?</a>
+            </div>
         </div>
     </form>
+        <% if (request.getAttribute("errMsg") != null) { %>
+    <div id="errorContainer" class="error-container">
+        <div id="errorMessage" class="error-message">
+            <p><%= request.getAttribute("errMsg") %>
+            </p>
+        </div>
+        <% } %>
     </div>
 </body>
 <style type="text/css">
-
     .wave {
         background: rgb(255 255 255 / 25%);
         border-radius: 1000% 1000% 0 0;
@@ -161,7 +157,6 @@
         background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
         background-size: 200% auto;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
-
         transition: text-shadow 0.5s ease;
         transition: .5s;
     }
@@ -200,39 +195,36 @@
         overflow: hidden;
     }
 
+    .wrapper i {
+        font-size: 25px;
+    }
+
     .wrapper span {
         z-index: 999955887;
         position: absolute;
-        top: 20px;
+        top: 10px;
         left: 20px;
-        width: 35px;
-        height: 4px;
-        background: rgba(5, 45, 147, 0.84);
-        padding-bottom: 2px;
-        border-radius: 5px;
+        width: 64px;
+        height: 43px;
+        color: #4907bb;
+        display: inline-block;
+        padding: 0px 9px;
+        margin: auto;
+        border-radius: 10px;
         cursor: pointer;
+        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
+        background-size: 200% auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
+        transition: text-shadow 0.5s ease, .5s;
     }
 
-    .wrapper span:before,
-    .wrapper span:after {
-        display: block;
-        position: absolute;
-        content: '';
-        left: 0;
-        height: 2px;
-        width: 35px;
-        background: rgba(3, 41, 166, 0.89);
-        padding-bottom: 4px;
-        border-radius: 5px;
+    .wrapper span:hover {
+        background-position: right center;
+        color: rgb(0, 0, 0);
+        box-shadow: 0 0 10px #f519f5;
     }
 
-    .wrapper span:before {
-        top: -8px;
-    }
 
-    .wrapper span:after {
-        bottom: -8px;
-    }
 
     .wrapper .overlay {
         position: absolute;
@@ -284,6 +276,7 @@
 
     .wrapper .overlay ul li {
         margin: 10px 0;
+        transition: all 1s ease;
     }
 
     .wrapper .overlay ul li a {
@@ -294,7 +287,9 @@
         padding: 20px 0;
         overflow: hidden;
     }
-
+    .wrapper .overlay ul li:hover{
+        text-shadow:#f519f5 1px 0 10px;
+    }
     .wrapper .overlay ul li a:after {
         display: block;
         border-radius: 2px;
@@ -350,7 +345,7 @@
         background:  linear-gradient(135deg, rgba(165, 54, 239, 0.44), #00878c);
         border-radius: 15px;
         box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
-        z-index: 100;
+        z-index: 99;
     }
 
     .wrapper-data .title {
@@ -414,17 +409,39 @@
         transform: translateY(-50%);
     }
 
+    form .content {
+        display: flex;
+        width: 100%;
+        height: 50px;
+        font-size: 16px;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+
 
     form .content input {
         width: 15px;
         height: 15px;
-        background: red;
+        background: #0e6ec7;
     }
 
     form .content label {
         color: #1b50a2;
         user-select: none;
         padding-left: 5px;
+    }
+    form .pass-link a,
+    form .signup-link a {
+        color: rgba(0, 59, 150, 0.76);
+        text-decoration: none;
+        transition: all 0.5s ease;
+    }
+    form .pass-link a:hover,
+    form .signup-link a:hover {
+        text-decoration: underline;
+        color: black;
+        text-shadow:#f519f5 1px 0 10px;
     }
     form .field input[type="submit"] {
         color: #4907bb;
@@ -447,16 +464,77 @@
         transform: scale(0.95);
     }
 
-
-    form .pass-link a,
-    form .signup-link a {
-        color: rgba(172, 208, 65, 0.76);
-        text-decoration: none;
+    .error-container {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(3px);
+        justify-content: center;
+        align-items: center;
     }
-    form .pass-link a:hover,
-    form .signup-link a:hover {
-        text-decoration: underline;
+    .error-message {
+        color: white;
+        height: auto;
+        width: auto;
+        background-color: rgb(114, 3, 3);
+        padding: 20px;
+        border-radius: 7px;
     }
-
 </style>
+<script>
+    $(document).ready(function () {
+        $('.menu').click(function () {
+            $('.overlay').toggleClass('anim');
+            $(this).toggleClass('open');
+            $('.blurry-background').toggleClass('blurry');
+        });
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
+                $('.overlay').removeClass('anim');
+                $('.menu').removeClass('open');
+                $('.blurry-background').removeClass('blurry');
+            }
+        });
+    });
+
+
+    function handleButtonClick() {
+        var errorContainer = document.getElementById('errorContainer');
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorContainer && errorContainer.contains(event.target) && !errorMessage.contains(event.target) ) {
+            errorContainer.style.display = 'none';
+            errorMessage.style.display = 'none'
+            window.history.back();
+        }
+    };
+    function handleEnterKeyPress() {
+        if (event.key === 'Enter' || event.keyCode === 32 ) {
+
+            var errorContainer = document.getElementById('errorContainer');
+            var errorMessage = document.getElementById('errorMessage');
+            errorContainer.style.display = 'none';
+            errorMessage.style.display = 'none'
+            window.history.back();
+        }
+    }    var newCode = document.getElementById("newCode");
+    newCode.addEventListener("click", function (event) {
+        event.preventDefault();
+        location.reload();
+    });
+    <% if (request.getAttribute("errMsg") != null) { %>
+    document.getElementById('errorMessage').style.display = 'flex';
+    document.getElementById('errorContainer').style.display = 'flex';
+    <% } %>
+    var backLink = document.getElementById("backLink");
+    backLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.history.back();
+    });
+    document.body.addEventListener('keypress',handleEnterKeyPress)
+    document.body.addEventListener('click', handleButtonClick);
+
+</script>
 </html>

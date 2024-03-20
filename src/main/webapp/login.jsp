@@ -224,11 +224,7 @@
         justify-content: space-around;
     }
 
-    form .content .checkbox {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+
 
     form .content input {
         width: 15px;

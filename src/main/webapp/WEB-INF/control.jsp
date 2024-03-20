@@ -119,8 +119,8 @@
 </body>
 <style type="text/css">
     .container {
-        max-width: 1150px;
-        width: 100%;
+        max-width: 1200px;
+        width: auto;
         max-height: 80%;
         background: linear-gradient(135deg, #0cffe5, #36b7ef);
         padding: 20px 35px;
@@ -132,8 +132,8 @@
     }
 
     .forming {
-        max-width: 1150px;
-        width: 100%;
+        max-width: 1200px;
+        width: auto;
         background: transparent;
         backdrop-filter: blur(10);
         z-index: 100;
@@ -198,9 +198,10 @@
     }
 
     .table td {
-        padding-left: 20px;
         border: 30px;
         font-size: 16px;
+        white-space: nowrap;
+        padding: 2px 10px;
         background: linear-gradient(135deg, #fdd100, #428af6);
     }
 
