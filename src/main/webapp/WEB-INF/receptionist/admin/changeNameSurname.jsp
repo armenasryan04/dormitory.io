@@ -8,6 +8,14 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+<% if (request.getAttribute("errMsg") != null) { %>
+<div id="errorContainer" class="error-container">
+    <div id="errorMessage" class="error-message">
+        <p><%= request.getAttribute("errMsg") %>
+        </p>
+    </div>
+    <% } %>
+</div>
 
 <div class="wave"></div>
 <div class="wave"></div>
@@ -45,15 +53,7 @@
         </div>
 
     </form>
-        <% if (request.getAttribute("errMsg") != null) { %>
-    <div id="errorContainer" class="error-container">
-        <div id="errorMessage" class="error-message">
-            <p><%= request.getAttribute("errMsg") %>
-            </p>
-        </div>
-        <% } %>
-    </div>
-
+</div>
 </body>
 <style type="text/css">
 
@@ -145,7 +145,6 @@
         background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
         background-size: 200% auto;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.31);
-
         transition: text-shadow 0.5s ease;
         transition: .5s;
     }
@@ -189,8 +188,7 @@
     }
 
     .wrapper span {
-
-        z-index: 999955887;
+        z-index: 99941;
         position: absolute;
         top: 10px;
         left: 20px;
@@ -453,17 +451,20 @@
         left: 0;
         width: 100%;
         height: 100%;
-        backdrop-filter: blur(3px);
+        backdrop-filter: blur(5px);
         justify-content: center;
         align-items: center;
+        z-index:200000000000;
     }
     .error-message {
+        z-index: 200000000;
         color: white;
         height: auto;
         width: auto;
         background-color: rgb(114, 3, 3);
         padding: 20px;
         border-radius: 7px;
+
     }
 
 </style>   <script>

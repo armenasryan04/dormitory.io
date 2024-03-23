@@ -4,7 +4,7 @@ import dormitory.emailVerifycation.EmailSender;
 import dormitory.manager.RoomManager;
 import dormitory.models.Room;
 import dormitory.models.Student;
-import dormitory.validation.StudentValidation;
+import dormitory.validation.Validation;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -27,7 +27,7 @@ public class ActivateValidationFilter implements Filter {
         String date = req.getParameter("date");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date utilDate;
-        java.sql.Date sqlDate = null;
+        java.sql.Date sqlDate;
         try {
             utilDate = dateFormat.parse(date);
             sqlDate = new java.sql.Date(utilDate.getTime());
@@ -38,19 +38,19 @@ public class ActivateValidationFilter implements Filter {
                     .email(req.getParameter("email").trim())
                     .date(sqlDate)
                     .room(room)
-                    .verifyCode(String.valueOf(randomNumber)).
-                    build();
+                    .verifyCode(String.valueOf(randomNumber))
+                    .build();
             EmailSender emailSender = new EmailSender();
-            if (StudentValidation.isEmailAddressValid(student.getEmail()) && emailSender.sendMail(student.getEmail(), randomNumber) && StudentValidation.dateValid(student.getDate())) {
+            if (Validation.isEmailAddressValid(student.getEmail()) && emailSender.sendMail(student.getEmail(), randomNumber) && Validation.isDateValid(student.getDate())) {
                 req.setAttribute("student", student);
                 filterChain.doFilter(req, resp);
             } else {
-                req.setAttribute("errMsg", StudentValidation.validation(student));
+                req.setAttribute("errMsg", Validation.validation(student));
                 req.setAttribute("room", student.getRoom());
                 req.getRequestDispatcher("WEB-INF/student/dataFilling.jsp").forward(req, resp);
             }
         } catch (ParseException e) {
-            req.setAttribute("errMsg","invalid date");
+            req.setAttribute("errMsg", "invalid date");
             req.setAttribute("room", room);
             req.getRequestDispatcher("WEB-INF/student/dataFilling.jsp").forward(req, resp);
         }

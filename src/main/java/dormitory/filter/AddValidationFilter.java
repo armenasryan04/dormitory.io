@@ -4,7 +4,7 @@ import dormitory.emailVerifycation.EmailSender;
 import dormitory.manager.RoomManager;
 import dormitory.models.Room;
 import dormitory.models.Student;
-import dormitory.validation.StudentValidation;
+import dormitory.validation.Validation;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -45,11 +45,11 @@ public class AddValidationFilter implements Filter {
                     .verifyCode(String.valueOf(randomNumber))
                     .build();
             EmailSender emailSender = new EmailSender();
-            if (StudentValidation.validation(student) == null && emailSender.sendMail(student.getEmail(), randomNumber)) {
+            if (Validation.validation(student) == null && emailSender.sendMail(student.getEmail(), randomNumber)) {
                 req.setAttribute("student", student);
                 filterChain.doFilter(req, resp);
             } else {
-                req.setAttribute("errMsg", StudentValidation.validation(student));
+                req.setAttribute("errMsg", Validation.validation(student));
                 req.setAttribute("room", student.getRoom());
                 req.getRequestDispatcher("WEB-INF/student/dataFilling.jsp").forward(req, resp);
             }

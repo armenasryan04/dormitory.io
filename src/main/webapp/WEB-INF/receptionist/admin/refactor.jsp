@@ -505,6 +505,7 @@
     }
     .icon{
         width: 38px;
+        height: 46px;
         background:transparent;
         text-shadow: 0 0 20px rgba(0, 0, 0, 0); ;
         z-index: 100;

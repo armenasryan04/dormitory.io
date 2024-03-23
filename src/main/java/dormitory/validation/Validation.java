@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StudentValidation {
+public class Validation {
     public static String validation(Student student) {
         RoomManager roomManager = new RoomManager();
         StudentManager studentManager = new StudentManager();
@@ -55,22 +55,22 @@ public class StudentValidation {
             return validation;
         }
 
-        if (validatePhoneNumber(student.getPhoneNum()) || student.getPhoneNum() == null || student.getPhoneNum().isEmpty()) {
+        if (isValidatePhoneNumber(student.getPhoneNum()) || student.getPhoneNum() == null || student.getPhoneNum().isEmpty()) {
             validation = "Incorrect Phone try again!";
             return validation;
         }
-        if (!dateValid(student.getDate())){
+        if (!isDateValid(student.getDate())){
             validation = "incorrect Date try again!";
         }
         return validation;
     }
 
-    private static boolean isValidId(int id) {
+     public static boolean isValidId(int id) {
         return String.valueOf(id).length() >= 3 && String.valueOf(id).length() <= 4;
     }
 
 
-    private static boolean validatePhoneNumber(String phoneNumber) {
+      static boolean isValidatePhoneNumber(String phoneNumber) {
         String phonePattern = "^\\+374\\d{6}$";
         Pattern pattern = Pattern.compile(phonePattern);
         Matcher matcher = pattern.matcher(phoneNumber);
@@ -89,7 +89,7 @@ public class StudentValidation {
     }
 
 
-    private static boolean isNameValid(String name) {
+    public static boolean isNameValid(String name) {
         if (name == null || name.isEmpty()) {
             return false;
         }
@@ -116,7 +116,7 @@ public class StudentValidation {
         return true;
     }
 
-    private static boolean isSurnameValid(String surname) {
+    public static boolean isSurnameValid(String surname) {
         if (surname == null || surname.isEmpty()) {
             return false;
         }
@@ -141,7 +141,7 @@ public class StudentValidation {
         }
         return true;
     }
-    public static boolean dateValid(Date date){
+    public static boolean isDateValid(Date date){
         Date today = new Date();
         long tomorrowMillis = today.getTime() + (24 * 60 * 60 * 1000);
         Date tomorrow = new Date(tomorrowMillis);
