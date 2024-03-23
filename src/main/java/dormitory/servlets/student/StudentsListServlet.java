@@ -29,7 +29,7 @@ public class StudentsListServlet extends HttpServlet {
             all = studentManager.getByNameOrSurnameActive(search);
         }
         req.setAttribute("students",all);
-        req.getRequestDispatcher("WEB-INF/studentsList.jsp").forward(req,resp);
+        req.getRequestDispatcher("WEB-INF/student/studentsList.jsp").forward(req,resp);
 
     }
 }

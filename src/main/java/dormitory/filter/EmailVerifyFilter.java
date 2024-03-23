@@ -49,7 +49,7 @@ public class EmailVerifyFilter implements Filter {
         }else {
             req.setAttribute("errMsg","not variable code try again!");
             req.setAttribute("room",room);
-            req.getRequestDispatcher("WEB-INF/dataFilling.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/student/dataFilling.jsp").forward(req, resp);
         }
     }
 }

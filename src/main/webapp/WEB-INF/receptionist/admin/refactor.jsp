@@ -103,15 +103,12 @@
     <div class="overlay">
         <a style="position: absolute;top:5px " class="gradient-button" href="/logout"><i class='bx bx-log-out'></i></a>
         <ul>
-            <%if (request.getAttribute("inArchive") == null) { %>
-
-            <li><a href="/refactorMenu" class="icon" ><i class='bx bxs-user-circle'><%=receptionist.getName()%></i></a></li>
-            <li><a href="/freeRooms" >ADD STUDENT</a></li>
-            <li><a href="/control?status=archive">STUDENTS ARCHIVE</a></li>
-            <%} else {%>
-            <li><a id="backLink">Back</a></li>
-            <li><a href="/freeRooms">ADD STUDENT</a></li>
-            <%};%>
+          <div class="icon" > <i class='bx bxs-user-circle'><%=receptionist.getName()%> <%=receptionist.getSurname()%></i></div>
+            <li><a href="#" id = 'backLink'>Back</a></li>
+            <li><a href="/changeNameSurname">Name and Surname</a></li>
+            <li><a href="/changePassword">Password</a></li>
+            <li><a href="/changeEmail">Email</a></li>
+            <li><a href="/deactivation" style="color: brown">Deactivation</a></li>
         </ul>
     </div>
     <div class="blurry-background"></div>
@@ -304,12 +301,14 @@
         background-position: right center;
         color: rgb(0, 0, 0);
         box-shadow: 0 0 10px #f519f5;
+        font-size: 35px;
     }
 
     * {
+        padding: 0;
+        margin: 0;
         box-sizing: border-box;
     }
-
     body {
         margin: 0;
         padding: 0;
@@ -384,11 +383,6 @@
         width: 300px;
     }
 
-    * {
-        padding: 0;
-        margin: 0;
-    }
-
     .wrapper {
         width: 100%;
         height: 100vh;
@@ -401,7 +395,6 @@
     }
 
     .wrapper span {
-
         z-index: 999955887;
         position: absolute;
         top: 10px;
@@ -428,12 +421,13 @@
 
     .wrapper .overlay {
         position: absolute;
-        bottom: -100%;
+        left: 0;
+        right: 75%;
+        bottom: 0;
+        width: 25%;
         height: 100%;
         background: linear-gradient(rgba(0, 241, 76, 0.82), rgba(73, 7, 187, 0.84));
-        left: 0;
-        width: 100%;
-        transition: all 0.5s ease;
+        z-index: 9955;
     }
 
     .blurry-background {
@@ -444,26 +438,10 @@
         height: 100%;
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        z-index: 99;
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    }
-
-    .blurry {
         z-index: 100;
         opacity: 1;
     }
 
-    .wrapper .overlay.anim {
-        left: 0;
-        bottom: 0;
-        animation: menu-anim 1.5s 1 ease-out forwards;
-        width: 25%;
-        right: 75%;
-        z-index: 9955;
-        transition: all 0.5s ease;
-
-    }
 
     .wrapper .overlay ul {
         width: 100%;
@@ -473,15 +451,16 @@
         margin-left: -10px;
         font-size: 1em;
         font-weight: 800;
+        user-select: none;
     }
 
     .wrapper .overlay ul li {
         margin: 10px 0;
         transition: all 1s;
     }
-.wrapper .overlay ul li:hover{
-    text-shadow:#f519f5 1px 0 10px;
-}
+    .wrapper .overlay ul li:hover{
+        text-shadow:#f519f5 1px 0 10px;
+    }
     .wrapper .overlay ul li a {
         text-decoration: none;
         color: #000000;
@@ -508,18 +487,6 @@
     }
 
     @keyframes menu-anim {
-        0% {
-            left: -99.5%;
-            bottom: -99%;
-            width: 100%;
-        }
-
-        50% {
-            left: -99.5%;
-            bottom: 0;
-            width: 100%;
-        }
-
         100% {
             bottom: 0;
             left: 0;
@@ -537,17 +504,22 @@
         }
     }
     .icon{
-        width: 45px;
+        width: 38px;
         background:transparent;
         text-shadow: 0 0 20px rgba(0, 0, 0, 0); ;
-        overflow-x: hidden;
         z-index: 100;
         white-space: nowrap;
+        text-decoration: none;
+        color: #000000;
+        position: relative;
+        display: inline-block;
+        margin: 10px 0;
+        overflow: hidden;
         transition: all 2.5s ease;
     }
 
     .icon i{
-        font-size: 50px;
+        font-size: 40px;
         color: rgba(0, 0, 0, 0.99);
         text-shadow: 0 0 20px rgba(0, 0, 0, 0);
         transition: all 0.5s ease;
@@ -565,27 +537,18 @@
 
 </style>
 <script>
-    document.getElementById('searchInput').addEventListener('keypress', function (event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            document.getElementById('searchForm').submit();
-        }
-    });
     $(document).ready(function () {
         $('.menu').click(function () {
-            $('.overlay').toggleClass('anim');
-            $(this).toggleClass('open');
-            $('.blurry-background').toggleClass('blurry');
+            event.preventDefault();
+            window.location.href = '/control';
         });
         $(document).click(function (event) {
             if (!$(event.target).closest('.overlay').length && !$(event.target).closest('.menu').length) {
-                $('.overlay').removeClass('anim');
-                $('.menu').removeClass('open');
-                $('.blurry-background').removeClass('blurry');
+                event.preventDefault();
+                window.location.href = '/control';
             }
         });
     });
-
     var backLink = document.getElementById("backLink");
     backLink.addEventListener("click", function (event) {
         event.preventDefault();

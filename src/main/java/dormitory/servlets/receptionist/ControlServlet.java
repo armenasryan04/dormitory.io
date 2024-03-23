@@ -39,6 +39,6 @@ public class ControlServlet extends HttpServlet {
         }
         req.setAttribute("numberOfStudents", numberOfStudents);
         req.setAttribute("students", all);
-        req.getRequestDispatcher("WEB-INF/control.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/receptionist/admin/control.jsp").forward(req, resp);
     }
 }

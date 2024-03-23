@@ -24,8 +24,8 @@ public class RoomInfoServlet extends HttpServlet {
         String timer = student.getDaysUntil(releaseDay);
         req.setAttribute("timer",timer);
         req.setAttribute("date",releaseDay);
-        req.setAttribute("dormitory", room);
-        req.getRequestDispatcher("WEB-INF/roomsInfo.jsp").forward(req,resp);
+        req.setAttribute("room", room);
+        req.getRequestDispatcher("WEB-INF/room/roomInfo.jsp").forward(req,resp);
 
     }
 }

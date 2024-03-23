@@ -21,7 +21,7 @@ public class ReceptionistManager {
         }
     }
 
-    public void changeEMailById(int id, String email) {
+    public void changeEmailById(int id, String email) {
         String sql = "update receptionist set email = ? where id = " + id;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, email);

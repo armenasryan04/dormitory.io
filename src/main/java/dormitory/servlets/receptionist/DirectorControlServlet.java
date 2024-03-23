@@ -14,7 +14,7 @@ public class DirectorControlServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         if (session.getAttribute("receptionist") !=null){
-            req.getRequestDispatcher("WEB-INF/control.jsp").forward(req,resp);
+            req.getRequestDispatcher("WEB-INF/receptionist/admin/control.jsp").forward(req,resp);
         }else {
             resp.sendRedirect("/login");
         }

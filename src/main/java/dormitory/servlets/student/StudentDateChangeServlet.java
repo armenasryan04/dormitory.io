@@ -23,7 +23,7 @@ public class StudentDateChangeServlet extends HttpServlet {
         Room room = roomManager.getById(Integer.parseInt(req.getParameter("roomId")));
         student.setRoom(room);
         req.setAttribute("student", student);
-        req.getRequestDispatcher("WEB-INF/setDate.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/student/setDate.jsp").forward(req, resp);
 
     }
 }

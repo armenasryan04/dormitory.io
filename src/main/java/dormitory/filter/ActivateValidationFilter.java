@@ -47,12 +47,12 @@ public class ActivateValidationFilter implements Filter {
             } else {
                 req.setAttribute("errMsg", StudentValidation.validation(student));
                 req.setAttribute("room", student.getRoom());
-                req.getRequestDispatcher("WEB-INF/dataFilling.jsp").forward(req, resp);
+                req.getRequestDispatcher("WEB-INF/student/dataFilling.jsp").forward(req, resp);
             }
         } catch (ParseException e) {
             req.setAttribute("errMsg","invalid date");
             req.setAttribute("room", room);
-            req.getRequestDispatcher("WEB-INF/dataFilling.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/student/dataFilling.jsp").forward(req, resp);
         }
 
     }

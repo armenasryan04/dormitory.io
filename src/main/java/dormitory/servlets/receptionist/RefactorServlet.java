@@ -1,4 +1,4 @@
-package dormitory.servlets.student;
+package dormitory.servlets.receptionist;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,12 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/emailVerify")
-public class EmailVerifyAndAddDataServlet extends HttpServlet {
+@WebServlet("/refactorMenu")
+public class RefactorServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/student/verifyEmail.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/receptionist/admin/refactor.jsp").forward(req,resp);
     }
-
-
 }

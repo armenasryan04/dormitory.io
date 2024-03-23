@@ -37,7 +37,7 @@ public class FreeRoomsServlet extends HttpServlet {
             }
         }
         req.setAttribute("room", all);
-        req.getRequestDispatcher("WEB-INF/freeRoms.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/room/freeRoms.jsp").forward(req, resp);
 
     }
 

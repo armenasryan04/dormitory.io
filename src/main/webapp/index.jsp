@@ -19,13 +19,15 @@ response.sendRedirect("/login");
     <h1>Welcome to our Dormitory
     </h1>
     <br/>
-    <a href="/studentList" class="gradient-button">STUDENTS</a></br>
+    <a href="/studentList" class="gradient-button">STUDENTS</a>
     <a href="login.jsp" class="gradient-button">Log in</a>
 </div>
+</body>
+</html>
 <style>
     .container {
-        width: 50%;
-        max-height: 30%;
+        width: 450px;
+        max-height: 370px;
         background-color: #5ca2d3;
         padding: 25px 30px;
         border-radius: 5px;
@@ -116,7 +118,7 @@ response.sendRedirect("/login");
         font-family: 'Montserrat', sans-serif;
         text-transform: uppercase;
         letter-spacing: 2px;
-        background-image: linear-gradient(to right, #fdd100 0%, #3f640a 51%, #e8b905 100%);
+        background-image: linear-gradient(to right, #428af6 0%, #fdd100 51%, rgb(80, 0, 241) 100%);
         background-size: 200% auto;
         box-shadow: 0 0 20px rgba(0, 0, 0, .1);
         transition: .5s;
@@ -125,11 +127,10 @@ response.sendRedirect("/login");
 
     .gradient-button:hover {
         background-position: right center;
-        box-shadow: 0 0 5px #2f5b24, 0 0 3px #90ce45, 0 0 6px #f1c700, 0 0 9px #8cd089,
-        0 0 12px #71e3ee, 0 0 16px #e0ea7f, 0 0 21px #4ede97, 0 0 30px #5f83c4;
+        color: rgb(0, 0, 0);
+        box-shadow: 0 0 10px #f519f5;
         font-size: 20px;
     }
 </style>
-</body>
-</html>
+
 <%}%>
