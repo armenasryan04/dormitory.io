@@ -1,6 +1,5 @@
 package dormitory.filter;
 
-import dormitory.manager.ReceptionistManager;
 import dormitory.models.Receptionist;
 import dormitory.validation.Validation;
 
