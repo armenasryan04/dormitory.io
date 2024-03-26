@@ -92,7 +92,7 @@ public class ReceptionistManager {
         return receptionist;
     }
 
-    private Receptionist getByEmail(String email) {
+    public Receptionist getByEmail(String email) {
         Receptionist receptionist = new Receptionist();
         String sql = "SELECT * from receptionist WHERE email = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

@@ -11,9 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Validation {
-    public static String validation(Student student) {
-        RoomManager roomManager = new RoomManager();
-        StudentManager studentManager = new StudentManager();
+    public static String studentValidation(Student student,RoomManager roomManager,StudentManager studentManager) {
+
         String validation = null;
 
         if (!isEmailAddressValid(student.getEmail()) || student.getEmail().isEmpty() || student.getEmail() == null) {

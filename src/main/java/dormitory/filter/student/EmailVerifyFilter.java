@@ -1,4 +1,4 @@
-package dormitory.filter;
+package dormitory.filter.student;
 
 import dormitory.manager.RoomManager;
 import dormitory.models.Room;

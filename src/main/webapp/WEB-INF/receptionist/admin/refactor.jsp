@@ -106,8 +106,8 @@
           <div class="icon" > <i class='bx bxs-user-circle'><%=receptionist.getName()%> <%=receptionist.getSurname()%></i></div>
             <li><a href="#" id = 'backLink'>Back</a></li>
             <li><a href="/changeNameSurname">Name and Surname</a></li>
+            <li><a href="/changeEmailData">Email</a></li>
             <li><a href="/changePassword">Password</a></li>
-            <li><a href="/changeEmail">Email</a></li>
             <li><a href="/deactivation" style="color: brown">Deactivation</a></li>
         </ul>
     </div>

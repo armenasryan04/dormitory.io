@@ -1,23 +1,26 @@
-package dormitory.filter;
+package dormitory.filter.receptionist;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/receptionistLogin","/control","/addStudent","/freeRooms","/addStudent","/emailVerify","/makeActive"})
-public class AuthFilter implements Filter  {
+@WebFilter(urlPatterns = {"/addReceptionist","/changeEmail"})
+public class EmailVerifyFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
-        HttpSession session = req.getSession();
-        if (session.getAttribute("receptionist") != null){
-            filterChain.doFilter(req,resp);
+        req.setCharacterEncoding("UTF-8");
+        if (req.getParameter("checkCode").trim().equals(req.getParameter("code").trim())) {
+           filterChain.doFilter(req,resp);
         }else {
-            resp.sendRedirect("/login.jsp");
+            req.setAttribute("errMsg","not variable code try again!");
+            req.getRequestDispatcher("WEB-INF/receptionist/admin/verifyEmail.jsp").forward(req, resp);
         }
     }
 }
+
+
+
