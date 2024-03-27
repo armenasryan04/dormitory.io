@@ -41,11 +41,11 @@
 
     <form action="/saveNameSurname" method="post">
         <div class="field">
-            <input type="text"  name="name" required>
+            <input type="text"  name="name"  required>
             <label class="input-box">Name</label>
         </div>
         <div class="field">
-            <input type="text"  name="surname">
+            <input type="text"  name="surname" required>
             <label class="input-box" style=" float: right;">Surname</label>
         </div>
         <div class="field">

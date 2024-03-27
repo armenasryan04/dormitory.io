@@ -66,6 +66,9 @@
         <div class="field">
             <br/> <input type="submit" value="Set">
         </div>
+        <%session.removeAttribute("newEmail");%>
+        <%session.removeAttribute("password");%>
+        <%session.removeAttribute("email");%>
     </form>
 </div>
 </body>

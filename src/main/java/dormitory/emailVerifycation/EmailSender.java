@@ -7,8 +7,8 @@ import javax.mail.internet.*;
 public class EmailSender {
     public boolean sendMail(String to,int random) {
 
-        final String username = "asryanarmen04@gmail.com";
-        final String password = "nktg qmry pqsh kwca";
+        final String username = "dormitory374@gmail.com";
+        final String password = "ctjt jgpf ucfi epec";
 
         String host = "smtp.gmail.com";
         int port = 587;
@@ -20,14 +20,13 @@ public class EmailSender {
         props.put("mail.smtp.port", port);
 
 
-        Session session = Session.getInstance(props, new Authenticator() {
+        Session session = Session.getInstance(props,new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
         });
 
         try {
-
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
@@ -36,9 +35,9 @@ public class EmailSender {
             Transport.send(message);
             System.out.println("sms is sent to user" + to + "successfully!");
             return true;
-
         } catch (MessagingException e) {
             System.out.println("cant send :-( : " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }

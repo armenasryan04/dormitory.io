@@ -4,9 +4,14 @@ import dormitory.manager.RoomManager;
 import dormitory.manager.StudentManager;
 import dormitory.models.Student;
 
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,14 +82,15 @@ public class Validation {
     }
 
     public static boolean isEmailAddressValid(String email) {
-        boolean result = true;
+        boolean isValid;
         try {
-            InternetAddress emailAddr = new InternetAddress(email);
-            emailAddr.validate();
+            InternetAddress internetAddress = new InternetAddress(email);
+            internetAddress.validate();
+            isValid = isEmailDomainExists(email);
         } catch (AddressException e) {
-            result = false;
+         isValid = false;
         }
-        return result;
+        return isValid;
     }
 
 
@@ -145,5 +151,20 @@ public class Validation {
         long tomorrowMillis = today.getTime() + (24 * 60 * 60 * 1000);
         Date tomorrow = new Date(tomorrowMillis);
         return !date.before(tomorrow);
+    }
+    private static boolean isEmailDomainExists(String email) {
+        boolean exists = false;
+        try {
+            InternetAddress internetAddress = new InternetAddress(email);
+            String domain = internetAddress.getAddress().split("@")[1];
+            InetAddress inetAddress = InetAddress.getByName(domain);
+            exists = inetAddress.isReachable(5000);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            exists = false;
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return exists;
     }
 }
